@@ -14,6 +14,8 @@ public class RetirementAgeModel extends SimState
 	public void start() {
 		super.start();
 		System.out.println("A useless commit");
+		
+		// here's a useless comment
 	}
 
 	public static void main(String[] args) {
