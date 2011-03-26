@@ -3,6 +3,8 @@
  */
 package retirementAge;
 
+import java.util.ArrayList;
+
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import ec.util.MersenneTwisterFast;
@@ -172,7 +174,25 @@ public class Demographics implements Steppable{
 	}
 
 
-	
+	/**
+	 * Return a list containing ALL the agents in the matrix. This is used by the SimState to schedule all the agents.
+	 * @return
+	 */
+	public ArrayList<Agent> getAllAgents()
+	{
+		//this is the list we are going to fill
+		ArrayList<Agent> toReturn = new ArrayList();
+		//for all the cohorts
+		for(Agent[] cohort : agentMatrix)
+		{
+			//for each Agent in the cohort
+			for(Agent x : cohort)
+				toReturn.add(x);
+		}
+		
+		//return it!
+		return toReturn;
+	}
 	
 	
 	

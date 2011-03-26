@@ -87,6 +87,8 @@ public abstract class Agent implements Steppable {
 			status = Status.DEAD;
 			//Quit the schedule!
 			switchOff.stop();
+			//stop linking to the switchoff
+			switchOff = null;
 		}
 		
 		//(3) otherwise, check if you want to retire!
