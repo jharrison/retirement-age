@@ -89,7 +89,9 @@ public class Demographics implements Steppable{
 								//death time
 								random.nextInt(RetirementAgeModel.maxAge - RetirementAgeModel.minDeathAge)+RetirementAgeModel.minDeathAge,
 								//randomizer
-								random);
+								random,
+								//a link to here
+								this);
 			}
 		
 	}
@@ -162,7 +164,9 @@ public class Demographics implements Steppable{
 							//death time
 							state.random.nextInt(RetirementAgeModel.maxAge - RetirementAgeModel.minDeathAge)+RetirementAgeModel.minDeathAge,
 							//randomizer
-							state.random);
+							state.random,
+							//a link to here
+							this);
 		}
 		
 	}
