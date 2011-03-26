@@ -40,6 +40,15 @@ public class RetirementAgeModel extends SimState
 	 */
 	public static int maxNetworkSize = 25;
 	
+	/**
+	 * The approximate proportion of agents being random
+	 */
+	public double proportionRandom = .05; 
+	
+	/**
+	 * The approximate proportion of agents being rational
+	 */
+	public double proportionRational = .15;
 	
 	/**
 	 * This is the last cohort and also the largest possible death age
