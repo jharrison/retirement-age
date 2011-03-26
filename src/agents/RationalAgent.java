@@ -2,8 +2,18 @@ package agents;
 
 import retirementAge.RetirementAgeModel;
 
+/**
+ * This is the so called rational agent. It retires as soon as possible. Like a good Italian would (ba-dum-tish)
+ * @author carrknight
+ *
+ */
 public class RationalAgent extends Agent {
 
+	/**
+	 * Just calls Agent constructor. 
+	 * @param currentAge the agent's current age
+	 * @param deathTime the time the agent will die
+	 */
 	public RationalAgent(int currentAge, int deathTime) {
 		super(currentAge, deathTime);
 	}
