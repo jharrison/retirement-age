@@ -1,5 +1,6 @@
 package agents;
 
+import ec.util.MersenneTwisterFast;
 import retirementAge.RetirementAgeModel;
 
 /**
@@ -14,8 +15,8 @@ public class RationalAgent extends Agent {
 	 * @param currentAge the agent's current age
 	 * @param deathTime the time the agent will die
 	 */
-	public RationalAgent(int currentAge, int deathTime) {
-		super(currentAge, deathTime);
+	public RationalAgent(int currentAge, int deathTime,MersenneTwisterFast randomGenerator) {
+		super(currentAge, deathTime,randomGenerator);
 	}
 
 
