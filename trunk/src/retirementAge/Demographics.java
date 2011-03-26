@@ -10,6 +10,7 @@ import agents.Agent;
 import agents.ImitatorAgent;
 import agents.RandomAgent;
 import agents.RationalAgent;
+import agents.Status;
 
 /**
  * What this is going to be is just a glorified matrix of agents. <br>
@@ -122,7 +123,7 @@ public class Demographics implements Steppable{
 		
 		//now go through all the cohorts and make them point to the previous generation
 		//do this in reverse order
-		for(int i=agentMatrix.length-1; i>0; i++)
+		for(int i=agentMatrix.length-1; i>0; i--)
 			agentMatrix[i] = agentMatrix[i-1];
 		
 		//now make the first cohort point to a new cohort
@@ -166,5 +167,120 @@ public class Demographics implements Steppable{
 		
 	}
 	
+	/*
 	
+//this is a test
+	public static void mainAge(String[] args)
+	{
+		//randomizer
+		MersenneTwisterFast random = new MersenneTwisterFast(0l);
+		//create the table!
+		Demographics pippo = new Demographics(.05, .15,random );
+		
+		//print out the age matrix!
+		for(int i=0; i<pippo.agentMatrix.length; i++)
+		{
+			for(int j=0; j<pippo.agentMatrix[i].length; j++)
+			{
+				System.out.print(pippo.agentMatrix[i][j].getAge());
+				System.out.print(",");
+			}
+			System.out.println();
+		}
+		//step
+		pippo.step(new RetirementAgeModel(0));
+		System.out.println("**********************************************");
+		//print out the age matrix!
+		for(int i=0; i<pippo.agentMatrix.length; i++)
+		{
+			for(int j=0; j<pippo.agentMatrix[i].length; j++)
+			{
+				System.out.print(pippo.agentMatrix[i][j].getAge());
+				System.out.print(",");
+			}
+			System.out.println();
+		}
+		
+	}
+	
+	//this is a test
+	public static void mainType(String[] args)
+	{
+		//randomizer
+		MersenneTwisterFast random = new MersenneTwisterFast(0l);
+		//create the table!
+		Demographics pippo = new Demographics(.05, .15,random );
+		
+		//print out the age matrix!
+		for(int i=0; i<pippo.agentMatrix.length; i++)
+		{
+			for(int j=0; j<pippo.agentMatrix[i].length; j++)
+			{
+				//print out the class name (actually just its third character: n--> random, t--> rational i---> imitator
+				if(pippo.agentMatrix[i][j] instanceof RandomAgent)
+					System.out.print("n");
+				else if(pippo.agentMatrix[i][j] instanceof RationalAgent)
+					System.out.print("t");
+				else 
+					System.out.print("i");
+				System.out.print(",");
+			}
+			System.out.println();
+		}
+		//step
+		pippo.step(new RetirementAgeModel(0));
+		System.out.println("**********************************************");
+		//print out the age matrix!
+		for(int i=0; i<pippo.agentMatrix.length; i++)
+		{
+			for(int j=0; j<pippo.agentMatrix[i].length; j++)
+			{
+				if(pippo.agentMatrix[i][j] instanceof RandomAgent)
+					System.out.print("n");
+				else if(pippo.agentMatrix[i][j] instanceof RationalAgent)
+					System.out.print("t");
+				else 
+					System.out.print("i");
+				System.out.print(",");
+			}
+			System.out.println();
+		}
+		
+	}
+	
+	//this is a test
+	public static void main(String[] args)
+	{
+		//randomizer
+		MersenneTwisterFast random = new MersenneTwisterFast(0l);
+		//create the table!
+		Demographics pippo = new Demographics(.05, .15,random );
+		
+		//print out the age matrix!
+		for(int i=0; i<pippo.agentMatrix.length; i++)
+		{
+			for(int j=0; j<pippo.agentMatrix[i].length; j++)
+			{
+				System.out.print(pippo.agentMatrix[i][j].getStatus().toString().charAt(0));
+				System.out.print(",");
+			}
+			System.out.println();
+		}
+		//step
+		pippo.step(new RetirementAgeModel(0));
+		pippo.agentMatrix[0][0].setStatus(Status.DEAD);
+		System.out.println("**********************************************");
+		//print out the age matrix!
+		for(int i=0; i<pippo.agentMatrix.length; i++)
+		{
+			for(int j=0; j<pippo.agentMatrix[i].length; j++)
+			{
+				System.out.print(pippo.agentMatrix[i][j].getStatus().toString().charAt(0));
+				System.out.print(",");
+			}
+			System.out.println();
+		}
+		
+	}
+	*/
 }
