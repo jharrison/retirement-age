@@ -2,6 +2,8 @@ package agents;
 
 import java.util.Set;
 
+import ec.util.MersenneTwisterFast;
+
 import sim.engine.SimState;
 import sim.engine.Steppable;
 
@@ -44,11 +46,13 @@ public abstract class Agent implements Steppable {
 	
 	/**
 	 * This is just a simple constructor that sets one's age and time to die. Because the class is abstract this gets called only by
-	 * inheritors. It's here to make sure we set the age, deathage and start the Agent as alive
-	 * @param age
-	 * @param deathAge
+	 * inheritors. It's here to make sure we set the age, deathage and start the Agent as alive <br>
+	 * Also, it calls fillNetwork to create the network. @see fillNetwork
+	 * @param age your current age
+	 * @param deathAge your death age
+	 * @param randomGenerator a random generator needed to draw the network
 	 */
-	public Agent(int currentAge, int deathTime){
+	public Agent(int currentAge, int deathTime, MersenneTwisterFast randomGenerator){
 		//assign the age
 		age = currentAge;
 		//assing death time
@@ -56,6 +60,9 @@ public abstract class Agent implements Steppable {
 		
 		//start alive
 		status = Status.WORKING;
+		
+		//fill in your network
+		fillNetwork(randomGenerator);
 		
 	}
 	
@@ -85,7 +92,7 @@ public abstract class Agent implements Steppable {
 	 * This is the method to call when we are instantiating the agent and want to fill their network.
 	 * For now it's todo because I still have to make the cohor
 	 */
-	protected void fillNetwork(){
+	protected void fillNetwork(MersenneTwisterFast randomGenerator){
 		//TODO get this thing up and running.
 	}
 

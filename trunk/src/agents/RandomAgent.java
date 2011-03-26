@@ -11,13 +11,13 @@ public class RandomAgent extends Agent {
 	private MersenneTwisterFast gen;
 	
 	/**
-	 * On top of the Agent() constructor this one also requires a link to the SimState randomizer to make decisions
+	 * On top of the Agent() constructor this also stores the link to the randomizer because it needs to use it during its decision making
 	 * @param currentAge the agent's current age
 	 * @param deathTime the time the agent will die
 	 */
 	public RandomAgent(int currentAge, int deathTime, MersenneTwisterFast random) {
 		//call papa's constructor
-		super(currentAge, deathTime);
+		super(currentAge, deathTime,random);
 		//link up the random generator
 		gen = random;
 		
