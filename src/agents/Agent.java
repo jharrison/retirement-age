@@ -63,5 +63,43 @@ public abstract class Agent implements Steppable {
 	 * @return you either return WORKING or RETIRED. please don't return DEAD
 	 */
 	abstract protected Status doIRetire();
+
+	/**
+	 * @return the status
+	 */
+	public Status getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	/**
+	 * @return the age
+	 */
+	public int getAge() {
+		return age;
+	}
+
+	/**
+	 * @return the deathAge
+	 */
+	public int getDeathAge() {
+		return deathAge;
+	}
+
+	/**
+	 * @return the socialNetwork
+	 */
+	public Set<Agent> getSocialNetwork() {
+		return socialNetwork;
+	}
+	
+	
+	
 	
 }
