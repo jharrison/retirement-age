@@ -38,6 +38,24 @@ public abstract class Agent implements Steppable {
 	protected Set<Agent> socialNetwork;
 	
 	/**
+	 * This is just a simple constructor that sets one's age and time to die. Because the class is abstract this gets called only by
+	 * inheritors. It's here to make sure we set the age, deathage and start the Agent as alive
+	 * @param age
+	 * @param deathAge
+	 */
+	public Agent(int currentAge, int deathTime){
+		//assign the age
+		age = currentAge;
+		//assing death time
+		deathAge = deathTime;
+		
+		//start alive
+		status = Status.WORKING;
+		
+	}
+	
+	
+	/**
 	 * Three things happen in the step() function: <br>
 	 * (1) The agent ages <br>
 	 * (2) If death age is reached you are dead. <br>
@@ -52,7 +70,7 @@ public abstract class Agent implements Steppable {
 		//(2) check if it's your turn to die
 		if(age >= deathAge)
 			//you will be missed
-			status = status.DEAD;
+			status = Status.DEAD;
 		
 		//(3) otherwise, check if you want to retire!
 		status = doIRetire();
@@ -98,6 +116,7 @@ public abstract class Agent implements Steppable {
 	public Set<Agent> getSocialNetwork() {
 		return socialNetwork;
 	}
+	
 	
 	
 	
