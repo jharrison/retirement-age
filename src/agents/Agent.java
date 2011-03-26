@@ -15,6 +15,11 @@ import sim.engine.Steppable;
 public abstract class Agent implements Steppable {
 
 	/**
+	 * Annoying serial 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * This is the status of the agent. We are going to change this at the step() given whatever doIRetire() tells us
 	 * @see doIRetire
 	 */
@@ -74,6 +79,14 @@ public abstract class Agent implements Steppable {
 		
 		//(3) otherwise, check if you want to retire!
 		status = doIRetire();
+	}
+	
+	/**
+	 * This is the method to call when we are instantiating the agent and want to fill their network.
+	 * For now it's todo because I still have to make the cohor
+	 */
+	protected void fillNetwork(){
+		//TODO get this thing up and running.
 	}
 
 	/**
