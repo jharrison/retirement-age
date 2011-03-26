@@ -6,6 +6,7 @@ import ec.util.MersenneTwisterFast;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
+import sim.engine.Stoppable;
 
 
 /**
@@ -16,6 +17,16 @@ import sim.engine.Steppable;
  */
 public abstract class Agent implements Steppable {
 
+	/**
+	 * Now, the twist of this model is that agents die off, but the problem is that they are still cluttering the schedule because we do
+	 * schedule them as repeating. This is a big problem if the simulation will run for a long time. <br>
+	 * Now the nice thing is that when we call scheduleRepeating we get a Stoppable we can call to tell the schedule to stop making this agent step. <br>
+	 * The problem with it is that the scheduleRepeating must be called AFTER we instantiate this agent. So we need to make sure that after we have scheduled this we call 
+	 * setSwitchOff to tell this Agent what is its switch off button
+	 */
+	private Stoppable switchOff;
+	
+	
 	/**
 	 * Annoying serial 
 	 */
@@ -53,6 +64,8 @@ public abstract class Agent implements Steppable {
 		//start alive
 		status = Status.WORKING;
 		
+		
+		
 	}
 	
 	
@@ -69,12 +82,17 @@ public abstract class Agent implements Steppable {
 		age++;
 		
 		//(2) check if it's your turn to die
-		if(age >= deathAge)
+		if(age >= deathAge){
 			//you will be missed
 			status = Status.DEAD;
+			//Quit the schedule!
+			switchOff.stop();
+		}
 		
 		//(3) otherwise, check if you want to retire!
 		status = doIRetire();
+	
+		
 	}
 
 	/**
@@ -111,6 +129,23 @@ public abstract class Agent implements Steppable {
 		return deathAge;
 	}
 
+
+	/**
+	 * @return the switchOff
+	 */
+	public Stoppable getSwitchOff() {
+		return switchOff;
+	}
+
+
+	/**
+	 * @param switchOff the switchOff to set
+	 */
+	public void setSwitchOff(Stoppable switchOff) {
+		this.switchOff = switchOff;
+	}
+
+	
 	
 	
 	
