@@ -1,5 +1,7 @@
 package agents;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -131,7 +133,7 @@ public class ImitatorAgent extends Agent {
 		for(Agent x : socialNetwork)
 		{
 			//if x is old enough (and he is not dead)
-			if(x.getAge() >= RetirementAgeModel.retirementAge && x.getStatus() != Status.DEAD)
+			if(x!= null && x.getAge() >= RetirementAgeModel.retirementAge && x.getStatus() != Status.DEAD)
 			{
 				//x is a friend that can retire
 				friendsThatCanRetire++;
@@ -142,6 +144,9 @@ public class ImitatorAgent extends Agent {
 			}
 		}
 		
+		//before we go further, let's remove dead friends from the social network or gc can't remove them
+		cleanNetwork();
+		
 		//now check the threshold
 		if(friendsThatHaveRetired / friendsThatCanRetire >= .5d)
 			//if 50+% of your friends have retired, retire
@@ -149,6 +154,23 @@ public class ImitatorAgent extends Agent {
 		else
 			//else keep working
 			return Status.WORKING;
+		
+	}
+	
+	private void cleanNetwork(){
+		
+		//prepare the collection where we store what to remove
+		Collection<Agent> toRemove = new ArrayList<Agent>();
+		
+		for(Agent x : socialNetwork)
+		{
+			if(x == null || x.getStatus() == Status.DEAD)
+				//if x is dead, add it to the toRemove list
+				toRemove.add(x);
+		}
+		
+		//now remove them from the set
+		socialNetwork.removeAll(toRemove);
 		
 	}
 
