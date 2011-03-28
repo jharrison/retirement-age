@@ -1,6 +1,5 @@
 package agents;
 
-import ec.util.MersenneTwisterFast;
 import retirementAge.RetirementAgeModel;
 
 /**

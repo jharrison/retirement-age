@@ -11,7 +11,8 @@ import sim.engine.Stoppable;
 
 public class RetirementAgeModel extends SimState
 {
-	
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * This is the smallest possible death age for an agent
 	 */
@@ -136,12 +137,7 @@ public class RetirementAgeModel extends SimState
 					e.printStackTrace();
 				}
 			}
-	
-				
-			
-		},1);
-		
-		
+		});		
 	}
 
 	public static void main(String[] args) {

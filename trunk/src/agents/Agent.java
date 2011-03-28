@@ -1,9 +1,5 @@
 package agents;
 
-import java.util.Set;
-
-import ec.util.MersenneTwisterFast;
-
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;

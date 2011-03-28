@@ -7,12 +7,11 @@ import java.util.ArrayList;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
-import ec.util.MersenneTwisterFast;
 import agents.Agent;
 import agents.ImitatorAgent;
 import agents.RandomAgent;
 import agents.RationalAgent;
-import agents.Status;
+import ec.util.MersenneTwisterFast;
 
 /**
  * What this is going to be is just a glorified matrix of agents. <br>
@@ -23,6 +22,7 @@ import agents.Status;
  *
  */
 public class Demographics implements Steppable{
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * This is where we store all our agents
