@@ -32,7 +32,7 @@ public class RationalAgent extends Agent {
 	 */
 	@Override
 	protected Status doIRetire() {
-		//do I qualify for retrement?
+		//do I qualify for retirement?
 		if(this.age >= RetirementAgeModel.retirementAge)
 			//if so, retire!
 			return Status.RETIRED;

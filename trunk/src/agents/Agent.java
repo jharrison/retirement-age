@@ -59,9 +59,6 @@ public abstract class Agent implements Steppable {
 		
 		//start alive
 		status = Status.WORKING;
-		
-		
-		
 	}
 	
 	
