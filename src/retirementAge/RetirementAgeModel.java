@@ -8,6 +8,7 @@ import sim.engine.Schedule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
+import sim.field.grid.ObjectGrid2D;
 
 public class RetirementAgeModel extends SimState
 {
@@ -58,6 +59,8 @@ public class RetirementAgeModel extends SimState
 	 */
 	public double proportionRational = .15;
 	
+	ObjectGrid2D agents;
+	
 	/**
 	 * This is the last cohort and also the largest possible death age
 	 */
@@ -70,6 +73,11 @@ public class RetirementAgeModel extends SimState
 	
 	public RetirementAgeModel(long seed) {
 		super(seed);
+	}
+	
+	public void init() {
+		int numCohorts = maxAge - minAge + 1;
+		agents = new ObjectGrid2D(numCohorts, cohortSize);
 	}
 
 	@Override
