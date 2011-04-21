@@ -40,7 +40,16 @@ public class RetirementAgeModelWithUI extends GUIState
     public Object getSimulationInspectedObject() { return state; }
 
 	public void setupPortrayals() {
-		agentPortrayal.setMap(new SimpleColorMap(new Color[] { Color.red, Color.blue }));
+		
+		// Agent visualization
+		// 0 retired: red
+		// 1 dead: white
+		// 2 rational: pink
+		// 3 imitator: blue
+		// 4 random: yellow
+		
+		agentPortrayal.setMap(new SimpleColorMap(
+				new Color[] { Color.red, Color.white, Color.pink, Color.blue, Color.yellow }));
 		agentPortrayal.setField(((RetirementAgeModel)state).agents);
 
 		display.reset();
@@ -51,7 +60,7 @@ public class RetirementAgeModelWithUI extends GUIState
 	public void init(Controller c) {
 		super.init(c);
 
-		display = new Display2D(400, 10, this, 1);
+		display = new Display2D(800, 800, this, 1);
 													
 		displayFrame = display.createFrame();
 		c.registerFrame(displayFrame); 										

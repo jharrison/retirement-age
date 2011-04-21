@@ -18,14 +18,10 @@ public class RationalAgent extends Agent {
 		super(currentAge, deathTime);
 	}
 
-
-
 	/**
 	 * Annoying serial
 	 */
 	private static final long serialVersionUID = 1L;
-
-	
 	
 	/**
 	 * Rational Agent is quite boring. It simply checks what's its own age, what's the retirement age and if the first is above or equal to the second then it retires
@@ -41,4 +37,13 @@ public class RationalAgent extends Agent {
 			return Status.WORKING;
 	}
 
+	@Override
+	public double doubleValue() {
+		switch (status) {
+		case RETIRED:	return 0;
+		case DEAD:		return 1;
+		}
+		
+		return 2;
+	}
 }

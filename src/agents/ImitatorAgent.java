@@ -88,11 +88,11 @@ public class ImitatorAgent extends Agent {
 					friendAge = gen.nextInt(1+maxFriendAge-minFriendAge) + minFriendAge;
 				
 				//now get the cohort associated with that age
-				Agent[] cohort = demography.getCohort(friendAge);
+				Object[] cohort = demography.getCohort(friendAge);
 				
 				//add an agent at random to the map
 				//If that friend was not already in, isValid is true
-				isValid = socialNetwork.add(cohort[gen.nextInt(cohort.length)]);
+				isValid = socialNetwork.add((Agent)cohort[gen.nextInt(cohort.length)]);
 				
 			}while(!isValid);
 	
@@ -172,6 +172,16 @@ public class ImitatorAgent extends Agent {
 		//now remove them from the set
 		socialNetwork.removeAll(toRemove);
 		
+	}
+
+	@Override
+	public double doubleValue() {
+		switch (status) {
+		case RETIRED:	return 0;
+		case DEAD:		return 1;
+		}
+		
+		return 3;
 	}
 
 	
