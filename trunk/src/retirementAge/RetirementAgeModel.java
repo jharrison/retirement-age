@@ -83,9 +83,10 @@ public class RetirementAgeModel extends SimState
 	@Override
 	public void start() {
 		super.start();
+		init();
 		
 		//let's instantiate the matrix of agents
-		society = new Demographics(0, .99, random);
+		society = new Demographics(0, .99, random, this);
 		
 		//now we need to cycle through all the agents in society and tell the schedule about them
 		//get all the agents
@@ -112,14 +113,15 @@ public class RetirementAgeModel extends SimState
 			//this'll be an anonymous implementation
 			public void step(SimState arg0) {
 				//get the new guys
-				Agent[] newCohort = society.getCohort(minAge);
+				Object[] newCohort = society.getCohort(minAge);
 				//schedule them
-				for(Agent x : newCohort)
+				for(Object o : newCohort)
 				{
+					Agent a = (Agent)o;
 					//save the Stoppable, we are going to need it 
-					Stoppable stopCondition = schedule.scheduleRepeating(schedule.getTime()+1,0,x,1);
+					Stoppable stopCondition = schedule.scheduleRepeating(schedule.getTime()+1,0,a,1);
 					//pass the switch condition to the agent
-					x.setSwitchOff(stopCondition);
+					a.setSwitchOff(stopCondition);
 					//done!				
 				}
 				
@@ -129,21 +131,21 @@ public class RetirementAgeModel extends SimState
 				 **********************************/
 				
 				//print out the age matrix!
-				for(int i=0; i<society.agentMatrix.length; i++)
-				{
-					for(int j=0; j<society.agentMatrix[i].length; j++)
-					{
-						System.out.print(society.agentMatrix[i][j].getStatus().toString().charAt(0));
-						System.out.print(",");
-					}
-					System.out.println();
-				}
-				try {
-					TimeUnit.SECONDS.sleep(1);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				for(int i=0; i < agents.field.length; i++)
+//				{
+//					for(int j=0; j < agents.field[i].length; j++)
+//					{
+//						System.out.print(((Agent)agents.field[i][j]).getStatus().toString().charAt(0));
+//						System.out.print(",");
+//					}
+//					System.out.println();
+//				}
+//				try {
+//					TimeUnit.SECONDS.sleep(1);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 			}
 		});		
 	}

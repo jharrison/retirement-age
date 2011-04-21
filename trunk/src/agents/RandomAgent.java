@@ -51,5 +51,15 @@ public class RandomAgent extends Agent {
 		}
 
 	}
+	
+	@Override
+	public double doubleValue() {
+		switch (status) {
+		case RETIRED:	return 0;
+		case DEAD:		return 1;
+		}
+		
+		return 4;
+	}
 
 }

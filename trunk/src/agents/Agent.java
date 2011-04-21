@@ -3,6 +3,7 @@ package agents;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
+import sim.util.Valuable;
 
 
 /**
@@ -11,7 +12,7 @@ import sim.engine.Stoppable;
  * @author carrknight
  *
  */
-public abstract class Agent implements Steppable {
+public abstract class Agent implements Steppable, Valuable {
 
 	/**
 	 * Now, the twist of this model is that agents die off, but the problem is that they are still cluttering the schedule because we do
@@ -124,14 +125,12 @@ public abstract class Agent implements Steppable {
 		return deathAge;
 	}
 
-
 	/**
 	 * @return the switchOff
 	 */
 	public Stoppable getSwitchOff() {
 		return switchOff;
 	}
-
 
 	/**
 	 * @param switchOff the switchOff to set
@@ -140,9 +139,4 @@ public abstract class Agent implements Steppable {
 		this.switchOff = switchOff;
 	}
 
-	
-	
-	
-	
-	
 }
