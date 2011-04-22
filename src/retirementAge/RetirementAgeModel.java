@@ -86,7 +86,7 @@ public class RetirementAgeModel extends SimState
 		init();
 		
 		//let's instantiate the matrix of agents
-		society = new Demographics(0, .99, random, this);
+		society = new Demographics(proportionRandom,proportionRational , random, this);
 		
 		//now we need to cycle through all the agents in society and tell the schedule about them
 		//get all the agents

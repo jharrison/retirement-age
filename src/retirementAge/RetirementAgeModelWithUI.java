@@ -79,7 +79,7 @@ public class RetirementAgeModelWithUI extends GUIState
     
     @Override
 	public void finish() {
-		((Console)controller).modelInspector.updateInspector();
+//		((Console)controller).modelInspector.updateInspector();
 		super.finish();
 	}
 
