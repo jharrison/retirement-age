@@ -84,10 +84,10 @@ public abstract class Agent implements Steppable, Valuable {
 			//stop linking to the switchoff
 			switchOff = null;
 		}
-		
+		else{
 		//(3) otherwise, check if you want to retire!
 		status = doIRetire();
-	
+		}
 		
 	}
 
