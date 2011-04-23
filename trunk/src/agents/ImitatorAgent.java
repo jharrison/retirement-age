@@ -5,10 +5,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import retirementAge.Demographics;
 import retirementAge.RetirementAgeModel;
 import sim.engine.SimState;
-import ec.util.MersenneTwisterFast;
 
 public class ImitatorAgent extends Agent {
 
