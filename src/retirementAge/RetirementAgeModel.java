@@ -1,14 +1,13 @@
 package retirementAge;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
-import agents.Agent;
 import sim.engine.Schedule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
 import sim.field.grid.ObjectGrid2D;
+import agents.Agent;
 
 public class RetirementAgeModel extends SimState
 {
@@ -17,54 +16,62 @@ public class RetirementAgeModel extends SimState
 	/**
 	 * This is the smallest possible death age for an agent
 	 */
-	public static int minDeathAge = 60;
+	public int minDeathAge = 60;
 	
 	/**
 	 * This is the the minimum age for an agent. This is the first cohort
 	 */
-	public static int minAge=20;
+	public int minAge=20;
 	
 	/**
 	 * This is the minimum retirement age
 	 */
-	public static int retirementAge = 65;
+	public int retirementAge = 65;
 	
 	/**
 	 * This is the C of the paper: how many agents for each cohort
 	 */
-	public static int cohortSize = 100;
+	public int cohortSize = 100;
 	
 	/**
 	 * This is the E of the paper: how many years backwards and forwards should an agent look for when creating his social network?
 	 */
-	public static int networkExtent = 5;
+	public int networkExtent = 5;
 	
 	/**
 	 * The minimum number of friends in an agent's network
 	 */
-	public static int minNetworkSize = 5;
+	public int minNetworkSize = 5;
 	
 	/**
 	 * The maximum number of friends in an agent's network
 	 */
-	public static int maxNetworkSize = 25;
+	public int maxNetworkSize = 25;
 	
 	/**
 	 * The approximate proportion of agents being random
 	 */
 	public double proportionRandom = .05; 
+	public double getProportionRandom() { return proportionRandom; }
+	public void setProportionRandom(double val) { proportionRandom = val; }
 	
 	/**
 	 * The approximate proportion of agents being rational
 	 */
 	public double proportionRational = .15;
+	public double getProportionRational() { return proportionRational; }
+	public void setProportionRational(double val) { proportionRational = val; }
 	
-	ObjectGrid2D agents;
+	/**
+	 * 2D Grid containing the agents. Note that the agents are also held in the demographics class
+	 * in the agentMatrix, which is where they should be modified.
+	 */
+	public ObjectGrid2D agents;
 	
 	/**
 	 * This is the last cohort and also the largest possible death age
 	 */
-	public static int maxAge = 100;
+	public int maxAge = 100;
 
 	/**
 	 * This is the matrix of agents
@@ -77,16 +84,17 @@ public class RetirementAgeModel extends SimState
 	
 	public void init() {
 		int numCohorts = maxAge - minAge + 1;
-		agents = new ObjectGrid2D(numCohorts, cohortSize);
+		agents = new ObjectGrid2D(cohortSize, numCohorts);
 	}
 
+	@SuppressWarnings("serial")
 	@Override
 	public void start() {
 		super.start();
 		init();
 		
 		//let's instantiate the matrix of agents
-		society = new Demographics(proportionRandom,proportionRational , random, this);
+		society = new Demographics(this);
 		
 		//now we need to cycle through all the agents in society and tell the schedule about them
 		//get all the agents
@@ -113,11 +121,10 @@ public class RetirementAgeModel extends SimState
 			//this'll be an anonymous implementation
 			public void step(SimState arg0) {
 				//get the new guys
-				Object[] newCohort = society.getCohort(minAge);
+				Agent[] newCohort = society.getCohort(minAge);
 				//schedule them
-				for(Object o : newCohort)
+				for(Agent a : newCohort)
 				{
-					Agent a = (Agent)o;
 					//save the Stoppable, we are going to need it 
 					Stoppable stopCondition = schedule.scheduleRepeating(schedule.getTime()+1,0,a,1);
 					//pass the switch condition to the agent

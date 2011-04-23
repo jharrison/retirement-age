@@ -20,30 +20,14 @@ public class ImitatorAgent extends Agent {
 	protected Set<Agent> socialNetwork;
 	
 	/**
-	 * a link to the randomizer of the SimState
-	 */
-	private MersenneTwisterFast gen;
-	
-	/**
-	 * a link to the agent matrix
-	 */
-	private Demographics demography;
-	
-	/**
 	 * This just calls the Agent() superclass constructor
 	 * @param currentAge your current age
 	 * @param deathTime the year you die
-	 * @param randomGenerator randomizer (needed to randomly generate the network)
-	 * @param demography needs access to the world to know which friends to make
+	 * @param model reference to the main model
 	 */
-	public ImitatorAgent(int currentAge, int deathTime,
-			MersenneTwisterFast randomGenerator, Demographics matrix) {
+	public ImitatorAgent(int currentAge, int deathAge, RetirementAgeModel model) {
 		//call the super constructor
-		super(currentAge, deathTime);
-		//link the randomizer
-		gen = randomGenerator;
-		//link the matrix
-		demography = matrix;
+		super(currentAge, deathAge, model);
 	}
 
 	/**
@@ -56,18 +40,18 @@ public class ImitatorAgent extends Agent {
 
 		//how big should the network be?
 		//U~[min,max]
-		int networkSize = gen.nextInt(RetirementAgeModel.maxNetworkSize- RetirementAgeModel.minNetworkSize) 
-						  + RetirementAgeModel.minNetworkSize ;
+		int networkSize = model.random.nextInt(model.maxNetworkSize- model.minNetworkSize) 
+						  + model.minNetworkSize ;
 		
 		//how far the model should go
-		int extent = gen.nextInt(RetirementAgeModel.networkExtent+1);
+		int extent = model.random.nextInt(model.networkExtent+1);
 		
 		//what is the actual age min and age max?
 		
 		//can't go below the minAge
-		int minFriendAge = Math.max(this.age-extent, RetirementAgeModel.minAge);
+		int minFriendAge = Math.max(this.age-extent, model.minAge);
 		//can't go above the maxAge
-		int maxFriendAge = Math.min(this.age+extent, RetirementAgeModel.maxAge);
+		int maxFriendAge = Math.min(this.age+extent, model.maxAge);
 		//now we have the two bounds
 		
 		//find #networkSize friends
@@ -85,14 +69,14 @@ public class ImitatorAgent extends Agent {
 					//this is the age
 					friendAge = this.age;
 				else
-					friendAge = gen.nextInt(1+maxFriendAge-minFriendAge) + minFriendAge;
+					friendAge = model.random.nextInt(1+maxFriendAge-minFriendAge) + minFriendAge;
 				
 				//now get the cohort associated with that age
-				Object[] cohort = demography.getCohort(friendAge);
+				Agent[] cohort = model.society.getCohort(friendAge);
 				
 				//add an agent at random to the map
 				//If that friend was not already in, isValid is true
-				isValid = socialNetwork.add((Agent)cohort[gen.nextInt(cohort.length)]);
+				isValid = socialNetwork.add(cohort[model.random.nextInt(cohort.length)]);
 				
 			}while(!isValid);
 	
@@ -133,7 +117,7 @@ public class ImitatorAgent extends Agent {
 		for(Agent x : socialNetwork)
 		{
 			//if x is old enough (and he is not dead)
-			if(x!= null && x.getAge() >= RetirementAgeModel.retirementAge && x.getStatus() != Status.DEAD)
+			if(x!= null && x.getAge() >= model.retirementAge && x.getStatus() != Status.DEAD)
 			{
 				//x is a friend that can retire
 				friendsThatCanRetire++;
