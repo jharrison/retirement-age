@@ -1,5 +1,6 @@
 package agents;
 
+import retirementAge.RetirementAgeModel;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
@@ -14,6 +15,11 @@ import sim.util.Valuable;
  */
 public abstract class Agent implements Steppable, Valuable {
 
+	/**
+	 * Reference to the containing model.
+	 */
+	protected RetirementAgeModel model;
+	
 	/**
 	 * Now, the twist of this model is that agents die off, but the problem is that they are still cluttering the schedule because we do
 	 * schedule them as repeating. This is a big problem if the simulation will run for a long time. <br>
@@ -51,12 +57,15 @@ public abstract class Agent implements Steppable, Valuable {
 	 * inheritors. It's here to make sure we set the age, deathage and start the Agent as alive <br>
 	 * @param age your current age
 	 * @param deathAge your death age
+	 * @param model reference to the main model
 	 */
-	public Agent(int currentAge, int deathTime){
+	public Agent(int currentAge, int deathAge, RetirementAgeModel model){
 		//assign the age
 		age = currentAge;
 		//assing death time
-		deathAge = deathTime;
+		this.deathAge = deathAge;
+		
+		this.model = model;
 		
 		//start alive
 		status = Status.WORKING;
@@ -84,11 +93,8 @@ public abstract class Agent implements Steppable, Valuable {
 			//stop linking to the switchoff
 			switchOff = null;
 		}
-		else{
-		//(3) otherwise, check if you want to retire!
-		status = doIRetire();
-		}
-		
+		else if (status == Status.WORKING)	//(3) otherwise, check if you want to retire!
+			status = doIRetire();	
 	}
 
 	/**

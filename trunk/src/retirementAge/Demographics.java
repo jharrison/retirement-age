@@ -11,7 +11,6 @@ import agents.Agent;
 import agents.ImitatorAgent;
 import agents.RandomAgent;
 import agents.RationalAgent;
-import ec.util.MersenneTwisterFast;
 
 /**
  * What this is going to be is just a glorified matrix of agents. <br>
@@ -27,7 +26,7 @@ public class Demographics implements Steppable{
 	/**
 	 * This is where we store all our agents
 	 */
-	//protected Agent[][] agentMatrix;
+	protected Agent[][] agentMatrix;
 	private RetirementAgeModel model;
 
 	/**
@@ -36,22 +35,39 @@ public class Demographics implements Steppable{
 	 * @param proportionRational the % of agents being rational
 	 * @param random the randomizer (needed to fill the matrix)
 	 */
-	public Demographics(double proportionRandom, double proportionRational, MersenneTwisterFast random, RetirementAgeModel model)
+	public Demographics(RetirementAgeModel model)
 	{
 		//sanity check
-		if(proportionRandom + proportionRational > 1)
+		if(model.proportionRandom + model.proportionRational > 1)
 			//throw new exception if probabilities go above one
 			throw new RuntimeException("Proportions are out of whack!");
 		
 		//if we are here, things are okay
-		//create the agent matrix: for each allowed age add the cohort size given by the RetirementAgeModel
-		//agentMatrix = new Agent[RetirementAgeModel.maxAge-RetirementAgeModel.minAge + 1][RetirementAgeModel.cohortSize];
-		//agentMatrix = model.agents.field;
+		
 		this.model = model;
 
+		//create the agent matrix: for each allowed age add the cohort size given by the RetirementAgeModel
+		agentMatrix = new Agent[model.maxAge-model.minAge + 1][model.cohortSize];
+		
 		//now fill it
-		reset(proportionRandom, proportionRational,random);
-
+		reset();
+	}
+	
+	private Agent createNewAgent(int age) {
+		double pick = model.random.nextDouble();
+		// the death rate is drawn from U~[min,max] 
+		int deathAge = model.random.nextInt(model.maxAge - model.minDeathAge) + model.minDeathAge;
+		Agent agent;
+		
+		//which agent will it be?
+		if (pick < model.proportionRandom)
+			agent = new RandomAgent(age, deathAge, model);
+		else if (pick < model.proportionRandom+model.proportionRational)
+			agent = new RationalAgent(age, deathAge, model);
+		else
+			agent = new ImitatorAgent(age, deathAge, model);
+		
+		return agent;
 	}
 
 	/**
@@ -60,55 +76,34 @@ public class Demographics implements Steppable{
 	 * @param proportionRational the % of agents being rational
 	 * @param random the randomizer to fill the matrix
 	 */
-	public void reset(double proportionRandom, double proportionRational, MersenneTwisterFast random) {
+	public void reset() {
 
 		//for each cohort
-		for(int age = 0; age < model.agents.field.length; age++)
+		for(int age = 0; age < agentMatrix.length; age++)
 			//for each agent in the cohort
-			for(int agent = 0; agent<model.agents.field[age].length; agent++)
-			{
-				//draw a random number
-				double pick = random.nextDouble();
-				//which agent will it be?
-				if(pick< proportionRandom)
-					//random agent
-					//with the age of the cohort and the death rate U~[min,max] and the randomizer from the SimState
-					model.agents.field[age][agent] = new RandomAgent(age + RetirementAgeModel.minAge, 
-							//death time
-							random.nextInt(RetirementAgeModel.maxAge - RetirementAgeModel.minDeathAge)+RetirementAgeModel.minDeathAge,
-							//randomizer
-							random);
-				else
-					//which agent will it be?
-					if(pick< proportionRandom+proportionRational)
-					{
-						//rational agent
-						//with the age of the cohort and the death rate U~[min,max]
-						model.agents.field[age][agent] = new RationalAgent(age + RetirementAgeModel.minAge, 
-								//death time
-								random.nextInt(RetirementAgeModel.maxAge - RetirementAgeModel.minDeathAge)+RetirementAgeModel.minDeathAge);
-					}
-				//otherwise it's an imitator!
-					else
-						model.agents.field[age][agent] = new ImitatorAgent(age + RetirementAgeModel.minAge, 
-								//death time
-								random.nextInt(RetirementAgeModel.maxAge - RetirementAgeModel.minDeathAge)+RetirementAgeModel.minDeathAge,
-								//randomizer
-								random,
-								//a link to here
-								this);
-			}
+			for(int agent = 0; agent < agentMatrix[age].length; agent++)
+				agentMatrix[age][agent] = createNewAgent(model.minAge + age);	
 		
+		copyToGrid();
+	}
+	
+	private void copyToGrid() {
+
+		// Copy the agentMatrix to the ObjectGrid2D, in transposed order.
+		// This is to make them scroll top to bottom instead of left to right.
+		for (int i = 0; i < agentMatrix.length; i++)
+			for (int j = 0; j < agentMatrix[0].length; j++)
+				model.agents.field[j][i] = agentMatrix[i][j];
 	}
 
 	
 	/**
 	 * This method returns the cohort of agents of that specific year!  
 	 */
-	public Object[] getCohort(int age)
+	public Agent[] getCohort(int age)
 	{
 		//return the link to that cohort!
-		return model.agents.field[age-RetirementAgeModel.minAge];
+		return agentMatrix[age-model.minAge];
 	}
 
 	//TODO comment about social network extent
@@ -118,64 +113,25 @@ public class Demographics implements Steppable{
 	 */
 	@Override
 	public void step(SimState arg0) {
-
-		//cast the argument!
-		RetirementAgeModel state = (RetirementAgeModel) arg0;
-		
-		
 		//clear off the last cohort (not sure this is needed)
-		for(int i=0; i<model.agents.field[model.agents.field.length-1].length; i++)
+		for (int i = 0; i < agentMatrix[agentMatrix.length-1].length; i++)
 			//making it null will surely attract the gc to the now dead agents
-			model.agents.field[model.agents.field.length-1][i]=null;
+			agentMatrix[agentMatrix.length-1][i]=null;
 		
 		//now go through all the cohorts and make them point to the previous generation
 		//do this in reverse order
-		for(int i=model.agents.field.length-1; i>0; i--)
-			model.agents.field[i] = model.agents.field[i-1];
+		for (int i = agentMatrix.length-1; i > 0; i--)
+			agentMatrix[i] = agentMatrix[i-1];
 		
 		//now make the first cohort point to a new cohort
-		model.agents.field[0] = new Agent[RetirementAgeModel.cohortSize];
+		agentMatrix[0] = new Agent[model.cohortSize];
 		
 		//fill in the first cohort
-		for(int i=0; i < model.agents.field[0].length; i++)
-		{
-			
-			//this is just a copy and paste from the reset function
-			
-			//draw a random number
-			double pick = state.random.nextDouble();
-			//which agent will it be?
-			if(pick< state.proportionRandom)
-				//random agent
-				//with the age of the cohort and the death rate U~[min,max] and the randomizer from the SimState
-				model.agents.field[0][i] = new RandomAgent(RetirementAgeModel.minAge, 
-						//death time
-						state.random.nextInt(RetirementAgeModel.maxAge - RetirementAgeModel.minDeathAge)+RetirementAgeModel.minDeathAge,
-						//randomizer
-						state.random);
-			else
-				//which agent will it be?
-				if(pick< state.proportionRandom+state.proportionRational)
-				{
-					//rational agent
-					//with the age of the cohort and the death rate U~[min,max]
-					model.agents.field[0][i] = new RationalAgent(RetirementAgeModel.minAge, 
-							//death time
-							state.random.nextInt(RetirementAgeModel.maxAge - RetirementAgeModel.minDeathAge)+RetirementAgeModel.minDeathAge);
-				}
-			//otherwise it's an imitator!
-				else
-					model.agents.field[0][i] = new ImitatorAgent( RetirementAgeModel.minAge, 
-							//death time
-							state.random.nextInt(RetirementAgeModel.maxAge - RetirementAgeModel.minDeathAge)+RetirementAgeModel.minDeathAge,
-							//randomizer
-							state.random,
-							//a link to here
-							this);
-		}
-		
-	}
+		for (int i = 0; i < agentMatrix[0].length; i++)
+			agentMatrix[0][i] = createNewAgent(model.minAge);
 
+		copyToGrid();
+	}
 
 	/**
 	 * Return a list containing ALL the agents in the matrix. This is used by the SimState to schedule all the agents.
@@ -183,20 +139,14 @@ public class Demographics implements Steppable{
 	 */
 	public ArrayList<Agent> getAllAgents()
 	{
-		//this is the list we are going to fill
-		ArrayList<Agent> toReturn = new ArrayList();
-		//for all the cohorts
-		for(Object[] cohort : model.agents.field)
-		{
-			//for each Agent in the cohort
-			for(Object x : cohort)
-				toReturn.add((Agent)x);
-		}
+		ArrayList<Agent> list = new ArrayList<Agent>();
+		// loop through each agent in each cohort and add them
+		for (Agent[] cohort : agentMatrix)
+			for (Agent x : cohort)
+				list.add(x);
 		
-		//return it!
-		return toReturn;
-	}
-	
+		return list;
+	}	
 	
 	/*
 	

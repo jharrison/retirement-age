@@ -9,13 +9,15 @@ import retirementAge.RetirementAgeModel;
  */
 public class RationalAgent extends Agent {
 
+	
 	/**
 	 * Just calls Agent constructor. 
 	 * @param currentAge the agent's current age
 	 * @param deathTime the time the agent will die
+	 * @param model reference to the main model
 	 */
-	public RationalAgent(int currentAge, int deathTime) {
-		super(currentAge, deathTime);
+	public RationalAgent(int currentAge, int deathTime, RetirementAgeModel model) {
+		super(currentAge, deathTime, model);
 	}
 
 	/**
@@ -29,7 +31,7 @@ public class RationalAgent extends Agent {
 	@Override
 	protected Status doIRetire() {
 		//do I qualify for retirement?
-		if(this.age >= RetirementAgeModel.retirementAge)
+		if(this.age >= model.retirementAge)
 			//if so, retire!
 			return Status.RETIRED;
 		else
@@ -42,8 +44,7 @@ public class RationalAgent extends Agent {
 		switch (status) {
 		case RETIRED:	return 0;
 		case DEAD:		return 1;
+		default:		return 2;	// RATIONAL
 		}
-		
-		return 2;
 	}
 }

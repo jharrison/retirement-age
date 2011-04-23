@@ -1,28 +1,19 @@
 package agents;
 
 import retirementAge.RetirementAgeModel;
-import ec.util.MersenneTwisterFast;
 
 public class RandomAgent extends Agent {
-
-	/**
-	 * This is the random generator, it should just be linked to the model one so we can control the seed
-	 */
-	private MersenneTwisterFast gen;
 	
 	/**
 	 * On top of the Agent() constructor this also stores the link to the SimState randomizer 
 	 * because it needs to use it during its decision making
 	 * @param currentAge the agent's current age
 	 * @param deathTime the time the agent will die
-	 * @param random the randomizer
+	 * @param model reference to the main model
 	 */
-	public RandomAgent(int currentAge, int deathTime, MersenneTwisterFast random) {
+	public RandomAgent(int currentAge, int deathTime, RetirementAgeModel model) {
 		//call papa's constructor
-		super(currentAge, deathTime);
-		//link up the random generator
-		gen = random;
-		
+		super(currentAge, deathTime, model);
 	}
 
 	/**
@@ -37,13 +28,13 @@ public class RandomAgent extends Agent {
 	protected Status doIRetire() {
 
 		//if you are not allowed to retire, don't
-		if(age < RetirementAgeModel.retirementAge)
+		if(age < model.retirementAge)
 			//don't retire
 			return Status.WORKING;
 		//otherwise
 		else{
 			//throw a coin
-			if(gen.nextBoolean())
+			if(model.random.nextBoolean())
 				//50% you retire
 				return Status.RETIRED;
 			else//50% you don't
@@ -57,9 +48,8 @@ public class RandomAgent extends Agent {
 		switch (status) {
 		case RETIRED:	return 0;
 		case DEAD:		return 1;
+		default:		return 4;	// RANDOM
 		}
-		
-		return 4;
 	}
 
 }

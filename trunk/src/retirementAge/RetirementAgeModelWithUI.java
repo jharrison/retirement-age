@@ -42,11 +42,11 @@ public class RetirementAgeModelWithUI extends GUIState
 	public void setupPortrayals() {
 		
 		// Agent visualization
-		// 0 retired: red
-		// 1 dead: white
-		// 2 rational: pink
-		// 3 imitator: blue
-		// 4 random: yellow
+		// 0) retired: 	red
+		// 1) dead: 	white
+		// 2) rational: pink
+		// 3) imitator: blue
+		// 4) random: 	yellow
 		
 		agentPortrayal.setMap(new SimpleColorMap(
 				new Color[] { Color.red, Color.white, Color.pink, Color.blue, Color.yellow }));
