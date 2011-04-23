@@ -161,9 +161,8 @@ public class ImitatorAgent extends Agent {
 		switch (status) {
 		case RETIRED:	return 0;
 		case DEAD:		return 1;
+		default:		return 3;	// Imitator
 		}
-		
-		return 3;
 	}
 
 	
