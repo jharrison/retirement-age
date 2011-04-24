@@ -83,11 +83,11 @@ public abstract class Agent implements Steppable, Valuable {
 		
 		//(1) the character ages
 		age++;
-		
+
 		//(2) check if it's your turn to die
 		if(age >= deathAge){
 			//you will be missed
-			status = Status.DEAD;
+			this.die();
 			//Quit the schedule!
 			switchOff.stop();
 			//stop linking to the switchoff
@@ -144,5 +144,11 @@ public abstract class Agent implements Steppable, Valuable {
 	public void setSwitchOff(Stoppable switchOff) {
 		this.switchOff = switchOff;
 	}
-
+	
+	/**
+	 * just changes the status to dead, but can be overriden.
+	 */
+	protected void die(){
+		status = Status.DEAD;
+	}
 }

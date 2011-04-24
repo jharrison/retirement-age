@@ -164,6 +164,15 @@ public class ImitatorAgent extends Agent {
 		default:		return 3;	// Imitator
 		}
 	}
+	
+	@Override
+	protected void die() {
+		// TODO Auto-generated method stub
+		super.die();
+		//destroy your network
+		socialNetwork.clear();
+		socialNetwork = null;
+	}
 
 	
 }
