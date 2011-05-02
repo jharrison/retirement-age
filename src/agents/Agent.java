@@ -51,6 +51,8 @@ public abstract class Agent implements Steppable, Valuable {
 	 */
 	protected int deathAge;
 	
+	protected boolean showInNetwork = false;
+	
 	
 	/**
 	 * This is just a simple constructor that sets one's age and time to die. Because the class is abstract this gets called only by
@@ -131,13 +133,14 @@ public abstract class Agent implements Steppable, Valuable {
 		return deathAge;
 	}
 
-	/**
-	 * @return the switchOff
-	 */
-	public Stoppable getSwitchOff() {
-		return switchOff;
-	}
-
+	// I commented this out so it doesn't show in the inspector
+//	/**
+//	 * @return the switchOff
+//	 */
+//	public Stoppable getSwitchOff() {
+//		return switchOff;
+//	}
+//
 	/**
 	 * @param switchOff the switchOff to set
 	 */

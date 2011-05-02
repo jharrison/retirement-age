@@ -4,11 +4,14 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
+import agents.ImitatorAgent;
+
 import sim.display.Console;
 import sim.display.Controller;
 import sim.display.Display2D;
 import sim.display.GUIState;
 import sim.engine.SimState;
+import sim.portrayal.LocationWrapper;
 import sim.portrayal.grid.FastObjectGridPortrayal2D;
 import sim.util.gui.SimpleColorMap;
 
@@ -23,7 +26,22 @@ public class RetirementAgeModelWithUI extends GUIState
 	public Display2D display;
 	public JFrame displayFrame;
 
-	FastObjectGridPortrayal2D agentPortrayal = new FastObjectGridPortrayal2D();
+	FastObjectGridPortrayal2D agentPortrayal = new FastObjectGridPortrayal2D() {
+		@Override
+	    public boolean setSelected(LocationWrapper wrapper, boolean selected)
+        {
+        if (wrapper == null) return true;
+        if (wrapper.getFieldPortrayal() != this) return true;
+
+        Object obj = wrapper.getObject();
+        
+        if (obj instanceof ImitatorAgent) {
+        	((ImitatorAgent)obj).setSelected(selected);
+        }
+        
+        return super.setSelected(wrapper, selected);
+        }
+	};
 
 	public RetirementAgeModelWithUI(SimState state) {
 		super(state);
@@ -34,7 +52,7 @@ public class RetirementAgeModelWithUI extends GUIState
 	}
 
     public static String getName() {
-    	return "One-Dimensional Schelling Segregation Model";
+    	return "Retirement Age Model";
 	}
     
     public Object getSimulationInspectedObject() { return state; }
@@ -49,7 +67,7 @@ public class RetirementAgeModelWithUI extends GUIState
 		// 4) random: 	yellow
 		
 		agentPortrayal.setMap(new SimpleColorMap(
-				new Color[] { Color.red, Color.white, Color.pink, Color.blue, Color.yellow }));
+				new Color[] { Color.red, Color.white, Color.pink, Color.blue, Color.yellow, Color.black }));
 		agentPortrayal.setField(((RetirementAgeModel)state).agents);
 
 		display.reset();

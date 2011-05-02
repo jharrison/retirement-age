@@ -10,12 +10,21 @@ import sim.engine.SimState;
 
 public class ImitatorAgent extends Agent {
 
+	private boolean selected = false;
+	public boolean getSelected() { return selected; }
+	public void setSelected(boolean val) {
+		selected = val;
+		showInNetwork = val;
+		for (Agent a : socialNetwork)
+			a.showInNetwork = val;
+	}
+
 	/**
 	 * This is the set of agents that represents our network. I chose to use a set because: <br> 
 	 * (1) It's easy to deal with duplicates <br>
 	 * (2) There is hardly any other feature besides pointing to other agents in the paper
 	 */
-	protected Set<Agent> socialNetwork;
+	public Set<Agent> socialNetwork;
 	
 	/**
 	 * This just calls the Agent() superclass constructor
@@ -158,6 +167,8 @@ public class ImitatorAgent extends Agent {
 
 	@Override
 	public double doubleValue() {
+		if (showInNetwork) return 5;
+		
 		switch (status) {
 		case RETIRED:	return 0;
 		case DEAD:		return 1;
