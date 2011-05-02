@@ -6,8 +6,12 @@ import sim.engine.Schedule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
+import sim.field.continuous.Continuous2D;
 import sim.field.grid.ObjectGrid2D;
+import sim.field.network.Network;
+import sim.util.Interval;
 import agents.Agent;
+import agents.ImitatorAgent;
 
 public class RetirementAgeModel extends SimState
 {
@@ -17,36 +21,73 @@ public class RetirementAgeModel extends SimState
 	 * This is the smallest possible death age for an agent
 	 */
 	public int minDeathAge = 60;
+	public int getMinDeathAge() { return minDeathAge; }
+	public void setMinDeathAge(int val) { minDeathAge = val; }
+    public Object domMinDeathAge() { return new Interval(50, 100); }
 	
 	/**
 	 * This is the the minimum age for an agent. This is the first cohort
 	 */
 	public int minAge=20;
+	public int getMinAge() { return minAge; }
+	public void setMinAge(int val) { minAge = val; }
+    public Object domMinAge() { return new Interval(0, 40); }
+	
+	/**
+	 * This is the last cohort and also the largest possible death age
+	 */
+	public int maxAge = 100;
+	public int getMaxAge() { return maxAge; }
+	public void setMaxAge(int val) { maxAge = val; }
+    public Object domMaxAge() { return new Interval(0, 100); }
+
+	/**
+	 * Minimum age to display in the GUI
+	 */
+	public int minDisplayAge = 50;	
+	public int getMinDisplayAge() { return minDisplayAge; }
+	public void setMinDisplayAge(int val) { minDisplayAge = val; }
+    public Object domMinDisplayAge() { return new Interval(20, 60); }
 	
 	/**
 	 * This is the minimum retirement age
 	 */
 	public int retirementAge = 65;
+	public int getRetirementAge() { return retirementAge; }
+	public void setRetirementAge(int val) { retirementAge = val; }
+    public Object domRetirementAge() { return new Interval(50, 75); }
 	
 	/**
 	 * This is the C of the paper: how many agents for each cohort
 	 */
 	public int cohortSize = 100;
+	public int getCohortSize() { return cohortSize; }
+	public void setCohortSize(int val) { cohortSize = val; }
+    public Object domCohortSize() { return new Interval(60, 200); }
 	
 	/**
 	 * This is the E of the paper: how many years backwards and forwards should an agent look for when creating his social network?
 	 */
 	public int networkExtent = 5;
+	public int getNetworkExtent() { return networkExtent; }
+	public void setNetworkExtent(int val) { networkExtent = val; }
+    public Object domNetworkExtent() { return new Interval(0, 10); }
 	
 	/**
 	 * The minimum number of friends in an agent's network
 	 */
 	public int minNetworkSize = 5;
+	public int getMinNetworkSize() { return minNetworkSize; }
+	public void setMinNetworkSize(int val) { minNetworkSize = val; }
+    public Object domMinNetworkSize() { return new Interval(0, 20); }
 	
 	/**
 	 * The maximum number of friends in an agent's network
 	 */
 	public int maxNetworkSize = 25;
+	public int getMaxNetworkSize() { return maxNetworkSize; }
+	public void setMaxNetworkSize(int val) { maxNetworkSize = val; }
+    public Object domMaxNetworkSize() { return new Interval(20, 50); }
 	
 	/**
 	 * The approximate proportion of agents being random
@@ -54,6 +95,7 @@ public class RetirementAgeModel extends SimState
 	public double proportionRandom = .05; 
 	public double getProportionRandom() { return proportionRandom; }
 	public void setProportionRandom(double val) { proportionRandom = val; }
+    public Object domProportionRandom() { return new Interval(0.0, 1.0); }
 	
 	/**
 	 * The approximate proportion of agents being rational
@@ -61,17 +103,14 @@ public class RetirementAgeModel extends SimState
 	public double proportionRational = .15;
 	public double getProportionRational() { return proportionRational; }
 	public void setProportionRational(double val) { proportionRational = val; }
+    public Object domProportionRational() { return new Interval(0.0, 1.0); }
 	
 	/**
 	 * 2D Grid containing the agents. Note that the agents are also held in the demographics class
 	 * in the agentMatrix, which is where they should be modified.
 	 */
 	public ObjectGrid2D agents;
-	
-	/**
-	 * This is the last cohort and also the largest possible death age
-	 */
-	public int maxAge = 100;
+		
 
 	/**
 	 * This is the matrix of agents
@@ -83,10 +122,10 @@ public class RetirementAgeModel extends SimState
 	}
 	
 	public void init() {
-		int numCohorts = maxAge - minAge + 1;
+		int numCohorts = maxAge - minDisplayAge + 1;
 		agents = new ObjectGrid2D(cohortSize, numCohorts);
 	}
-
+	
 	@SuppressWarnings("serial")
 	@Override
 	public void start() {

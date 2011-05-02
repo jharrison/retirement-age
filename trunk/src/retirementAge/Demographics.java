@@ -91,9 +91,10 @@ public class Demographics implements Steppable{
 
 		// Copy the agentMatrix to the ObjectGrid2D, in transposed order.
 		// This is to make them scroll top to bottom instead of left to right.
-		for (int i = 0; i < agentMatrix.length; i++)
+		int ageGap = model.minDisplayAge - model.minAge;
+		for (int age = ageGap; age < agentMatrix.length; age++)
 			for (int j = 0; j < agentMatrix[0].length; j++)
-				model.agents.field[j][i] = agentMatrix[i][j];
+				model.agents.field[j][age-ageGap] = agentMatrix[age][j];
 	}
 
 	
