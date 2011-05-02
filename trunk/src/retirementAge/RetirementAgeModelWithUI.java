@@ -21,26 +21,24 @@ import sim.util.gui.SimpleColorMap;
  * @author jharrison
  *
  */
+@SuppressWarnings("serial")
 public class RetirementAgeModelWithUI extends GUIState
 {
 	public Display2D display;
 	public JFrame displayFrame;
 
+	// Custom portrayal that allows us to select agents so they can draw their social network
 	FastObjectGridPortrayal2D agentPortrayal = new FastObjectGridPortrayal2D() {
 		@Override
-	    public boolean setSelected(LocationWrapper wrapper, boolean selected)
-        {
-        if (wrapper == null) return true;
-        if (wrapper.getFieldPortrayal() != this) return true;
+		public boolean setSelected(LocationWrapper wrapper, boolean selected) {
+			if (wrapper == null) return true;
+			if (wrapper.getFieldPortrayal() != this) return true;
 
-        Object obj = wrapper.getObject();
-        
-        if (obj instanceof ImitatorAgent) {
-        	((ImitatorAgent)obj).setSelected(selected);
-        }
-        
-        return super.setSelected(wrapper, selected);
-        }
+			Object obj = wrapper.getObject();
+			if (obj instanceof ImitatorAgent) ((ImitatorAgent) obj).setSelected(selected);
+
+			return super.setSelected(wrapper, selected);
+		}
 	};
 
 	public RetirementAgeModelWithUI(SimState state) {

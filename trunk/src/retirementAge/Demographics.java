@@ -87,8 +87,11 @@ public class Demographics implements Steppable{
 		copyToGrid();
 	}
 	
+	/**
+	 * Copy the visible portion of the agent matrix to the agent grid in the model.
+	 * The grid in the model will actually be displayed.
+	 */
 	private void copyToGrid() {
-
 		// Copy the agentMatrix to the ObjectGrid2D, in transposed order.
 		// This is to make them scroll top to bottom instead of left to right.
 		int ageGap = model.minDisplayAge - model.minAge;
@@ -96,7 +99,6 @@ public class Demographics implements Steppable{
 			for (int j = 0; j < agentMatrix[0].length; j++)
 				model.agents.field[j][age-ageGap] = agentMatrix[age][j];
 	}
-
 	
 	/**
 	 * This method returns the cohort of agents of that specific year!  
