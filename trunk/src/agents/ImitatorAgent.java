@@ -15,8 +15,10 @@ public class ImitatorAgent extends Agent {
 	public void setSelected(boolean val) {
 		selected = val;
 		showInNetwork = val;
-		for (Agent a : socialNetwork)
-			a.showInNetwork = val;
+		if (socialNetwork != null)
+			for (Agent a : socialNetwork)
+				if (a != null)
+					a.showInNetwork = val;
 	}
 
 	/**
@@ -47,7 +49,7 @@ public class ImitatorAgent extends Agent {
 
 		//how big should the network be?
 		//U~[min,max]
-		int networkSize = model.random.nextInt(model.maxNetworkSize- model.minNetworkSize) 
+		int networkSize = model.random.nextInt(model.maxNetworkSize - model.minNetworkSize) 
 						  + model.minNetworkSize ;
 		
 		//how far the model should go
@@ -86,20 +88,20 @@ public class ImitatorAgent extends Agent {
 				isValid = socialNetwork.add(cohort[model.random.nextInt(cohort.length)]);
 				
 			}while(!isValid);
-	
-		}
-		
-		
+		}		
 	}
 	
 	
 	//override the super step
 	public void step(SimState arg0)
 	{
-		//if the network don't exist, create it!
-		if(socialNetwork == null)
-			//fill the network!
+		// fill the social network after the agent is old enough 
+		if (age >= (model.minAge + model.networkExtent) && (socialNetwork == null))
 			fillNetwork();
+//		//if the network don't exist, create it!
+//		if(socialNetwork == null)
+//			//fill the network!
+//			fillNetwork();
 		//call the Agent step
 		super.step(arg0);
 	}
@@ -114,6 +116,9 @@ public class ImitatorAgent extends Agent {
 
 	@Override
 	protected Status doIRetire() {
+		// if the social network hasn't been filled, it's because we're very young. Don't retire!
+		if (socialNetwork == null)
+			return Status.WORKING;
 		
 		//initialize a counter for your friends that are eligible of retiring
 		double friendsThatCanRetire=0;
