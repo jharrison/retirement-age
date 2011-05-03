@@ -6,12 +6,9 @@ import sim.engine.Schedule;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
-import sim.field.continuous.Continuous2D;
 import sim.field.grid.ObjectGrid2D;
-import sim.field.network.Network;
 import sim.util.Interval;
 import agents.Agent;
-import agents.ImitatorAgent;
 
 public class RetirementAgeModel extends SimState
 {
