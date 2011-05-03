@@ -63,6 +63,7 @@ public class RetirementAgeModelWithUI extends GUIState
 		// 2) rational: pink
 		// 3) imitator: blue
 		// 4) random: 	yellow
+		// 4) in network: 	black
 		
 		agentPortrayal.setMap(new SimpleColorMap(
 				new Color[] { Color.red, Color.white, Color.pink, Color.blue, Color.yellow, Color.black }));
