@@ -1,0 +1,65 @@
+
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage{amssymb}
+%\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+
+\usepackage{url}
+\urldef{\mailsa}\path|{jharri1}@gmu.edu|
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\usepackage[caption=false]{subfig}
+\usepackage{wrapfig}
+%\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+
+\lstset{
+	language=Java,
+	basicstyle=\small\sffamily,
+	tabsize=4,
+	numbers=left,
+}
+
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
+
+\providecommand{\abs}[1]{\lvert#1\rvert}
+
+\newcommand{\doctitle}[0]{Retirement Redux: A replication of Axtell's and Epstein's Retirment Age model}
+
+\begin{document}
+\title{\doctitle}
+\author{Ernesto Carrella \\ Joseph F. Harrison}
+\authorrunning{\doctitle}
+\institute{George Mason University}
+
+\toctitle{\doctitle}
+\tocauthor{Authors' Instructions}
+\maketitle
+
+\section*{Abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+\section{Model Description}
+\section{Results}
+
+\section{Discussion}
+\section{Summary}
+
+\bibliographystyle{splncs03}
+\bibliography{references}
+
+\end{document}
