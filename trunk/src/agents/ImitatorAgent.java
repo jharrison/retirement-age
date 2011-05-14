@@ -142,9 +142,9 @@ public class ImitatorAgent extends Agent {
 		
 		//before we go further, let's remove dead friends from the social network or gc can't remove them
 		cleanNetwork();
-		
+
 		//now check the threshold
-		if(friendsThatHaveRetired / friendsThatCanRetire >= .5d)
+		if(friendsThatCanRetire>0 && friendsThatHaveRetired / friendsThatCanRetire >= .5d)
 			//if 50+% of your friends have retired, retire
 			return Status.RETIRED;
 		else
@@ -188,6 +188,12 @@ public class ImitatorAgent extends Agent {
 		//destroy your network
 		socialNetwork.clear();
 		socialNetwork = null;
+	}
+	/**
+	 * @return the socialNetwork
+	 */
+	public Set<Agent> getSocialNetwork() {
+		return socialNetwork;
 	}
 
 	
