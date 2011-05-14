@@ -9,6 +9,7 @@ import sim.engine.Stoppable;
 import sim.field.grid.ObjectGrid2D;
 import sim.util.Interval;
 import agents.Agent;
+import agents.Status;
 
 public class RetirementAgeModel extends SimState
 {
@@ -101,6 +102,18 @@ public class RetirementAgeModel extends SimState
 	public double getProportionRational() { return proportionRational; }
 	public void setProportionRational(double val) { proportionRational = val; }
     public Object domProportionRational() { return new Interval(0.0, 1.0); }
+    
+    public double getProportionRetired() {
+    	if (society == null)
+    		return 0;
+    	int count = 0;
+		ArrayList<Agent> allAgents = society.getAllAgents();
+		for (Agent a : allAgents)
+			if (a.getStatus() == Status.RETIRED)
+				count++;
+		
+		return count / (double)allAgents.size();
+    }
 	
 	/**
 	 * 2D Grid containing the agents. Note that the agents are also held in the demographics class

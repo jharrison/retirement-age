@@ -86,6 +86,8 @@ public class RetirementAgeModelWithUI extends GUIState
 		display.attach(agentPortrayal, "Agents");
 
 		display.setBackdrop(Color.black);
+
+		((Console)controller).setSize(380, 600);
 	}
 
 	@Override
