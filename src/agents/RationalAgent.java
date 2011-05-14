@@ -40,8 +40,6 @@ public class RationalAgent extends Agent {
 
 	@Override
 	public double doubleValue() {
-		if (showInNetwork) return 5;
-		
 		switch (status) {
 		case RETIRED:	return 0;
 		case DEAD:		return 1;

@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
+import agents.AgentPortrayal2D;
 import agents.ImitatorAgent;
 
 import sim.display.Console;
@@ -13,6 +14,7 @@ import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.LocationWrapper;
 import sim.portrayal.grid.FastObjectGridPortrayal2D;
+import sim.portrayal.grid.ObjectGridPortrayal2D;
 import sim.util.gui.SimpleColorMap;
 
 /**
@@ -28,7 +30,8 @@ public class RetirementAgeModelWithUI extends GUIState
 	public JFrame displayFrame;
 
 	// Custom portrayal that allows us to select agents so they can draw their social network
-	FastObjectGridPortrayal2D agentPortrayal = new FastObjectGridPortrayal2D() {
+	//FastObjectGridPortrayal2D agentPortrayal = new FastObjectGridPortrayal2D() {
+	ObjectGridPortrayal2D agentPortrayal = new ObjectGridPortrayal2D() {
 		@Override
 		public boolean setSelected(LocationWrapper wrapper, boolean selected) {
 			if (wrapper == null) return true;
@@ -65,8 +68,9 @@ public class RetirementAgeModelWithUI extends GUIState
 		// 4) random: 	yellow
 		// 4) in network: 	black
 		
-		agentPortrayal.setMap(new SimpleColorMap(
-				new Color[] { Color.red, Color.white, Color.pink, Color.blue, Color.yellow, Color.black }));
+//		agentPortrayal.setMap(new SimpleColorMap(
+//				new Color[] { Color.red, Color.white, Color.pink, Color.blue, Color.yellow, Color.black }));
+		agentPortrayal.setPortrayalForAll(new AgentPortrayal2D());
 		agentPortrayal.setField(((RetirementAgeModel)state).agents);
 
 		display.reset();
@@ -98,7 +102,6 @@ public class RetirementAgeModelWithUI extends GUIState
     
     @Override
 	public void finish() {
-//		((Console)controller).modelInspector.updateInspector();
 		super.finish();
 	}
 

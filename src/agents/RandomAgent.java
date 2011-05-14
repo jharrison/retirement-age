@@ -26,7 +26,6 @@ public class RandomAgent extends Agent {
 	 */
 	@Override
 	protected Status doIRetire() {
-
 		//if you are not allowed to retire, don't
 		if(age < model.retirementAge)
 			//don't retire
@@ -40,13 +39,10 @@ public class RandomAgent extends Agent {
 			else//50% you don't
 				return Status.WORKING;
 		}
-
 	}
 	
 	@Override
 	public double doubleValue() {
-		if (showInNetwork) return 5;
-		
 		switch (status) {
 		case RETIRED:	return 0;
 		case DEAD:		return 1;

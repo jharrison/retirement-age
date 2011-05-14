@@ -51,7 +51,18 @@ public abstract class Agent implements Steppable, Valuable {
 	 */
 	protected int deathAge;
 	
-	protected boolean showInNetwork = false;
+	/**
+	 * This is used for drawing the network of the selected agent
+	 */
+	public boolean showInNetwork = false;
+	
+	/**
+	 * This is used for drawing the selected agent
+	 */
+	public boolean selected = false;
+	public void setSelected(boolean val) {
+		selected = val;
+	}
 	
 	
 	/**
