@@ -4,7 +4,7 @@
 \usepackage{amssymb}
 %\setcounter{tocdepth}{3}
 \usepackage{graphicx}
-
+\linespread{2}
 \usepackage{url}
 \urldef{\mailsa}\path|{jharri1}@gmu.edu|
 \newcommand{\keywords}[1]{\par\addvspace\baselineskip
@@ -127,7 +127,8 @@ We decided to make the super-class Agent as abstract rather than interface so th
 Classes in MASON are agents when they implement the \textit{Steppable} interface.
 The Agent's step method is described in code~\ref{step}.
 This allows for sub-classes to override the \textit{doIRetire} function and still use aging and death of the super-class.
-
+{
+\linespread{1}
 \begin{lstlisting}[float,caption= {Agent's step class}, label={step}]
 public void step(SimState arg0) {
 		
@@ -141,7 +142,7 @@ public void step(SimState arg0) {
 	}
 
 \end{lstlisting}
-
+}
 
 \subsection{Garbage Collection}
 
@@ -225,6 +226,24 @@ Every parameter was set as in the original paper.
 
 We find that whether imitator agents follow their threshold strictly or not is very important.
 When exactly half of the eligibles friends have retired, should the agent retire as well?
+To show the effects we fix the number of rational agents to 10\% and we run the same simulation fixing the seed.
+Figure~\ref{laxstrict} show the result of the simulation.
+
+\begin{figure}
+ \begin{center}
+  \includegraphics[scale=.30]{figs/laxstrict.png}
+\caption{The black line is the simulation with strict threshold, the red line is without}
+\label{laxstrict}
+ \end{center}
+\end{figure}
+
+This highlights one of the oft-neglected advantages of replication.
+Whenever the original source code is missing, only through replication one is able to make additional tests on someone else's model.
+
+This goes also to show that minor assumptions might have great impact.
+In this case a change in threshold from $.5$ to $.499$ mean the difference between mass retirement and perennial work.
+
+
 
 
 
