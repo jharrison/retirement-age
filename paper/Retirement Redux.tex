@@ -10,13 +10,15 @@
 \newcommand{\keywords}[1]{\par\addvspace\baselineskip
 \noindent\keywordname\enspace\ignorespaces#1}
 
-\usepackage[caption=false]{subfig}
+%\usepackage[caption=false]{subfig}
 \usepackage{wrapfig}
 %\usepackage{multicol}
 \usepackage{amsmath}
 \usepackage{color}
 \usepackage{xcolor}
 \usepackage{listings}
+\usepackage{subfigure}
+
 
 \usepackage{caption}
 \DeclareCaptionFont{white}{\color{white}}
@@ -40,6 +42,7 @@
 
 \begin{document}
 \title{\doctitle}
+%\shorttitle{Retirement Redux}
 \author{Ernesto Carrella \\ Joseph F. Harrison}
 \authorrunning{\doctitle}
 \institute{George Mason University}
@@ -120,6 +123,24 @@ Each subclass then overrides only the code pertaining retirement decision.
  \end{center}
 \end{figure}
 
+We decided to make the super-class Agent as abstract rather than interface so that we could write common behavior together.
+Classes in MASON are agents when they implement the \textit{Steppable} interface.
+The Agent's step method is described in code~\ref{step}.
+This allows for sub-classes to override the \textit{doIRetire} function and still use aging and death of the super-class.
+
+\begin{lstlisting}[float,caption= {Agent's step class}, label={step}]
+public void step(SimState arg0) {
+		
+		age++;
+
+		if(age >= deathAge){
+			this.die();
+		}
+		else if (status == Status.WORKING && age>= model.retirementAge)	
+			status = doIRetire();	
+	}
+
+\end{lstlisting}
 
 
 \subsection{Garbage Collection}
@@ -130,10 +151,11 @@ His responsibility is to remove any reference to the object he wants to delete.
 
 Garbage collection proved quite a headache in our project.
 All references to agents are stored in a single matrix.
-We had hoped that by removing these agents from the matrix would be enough to clean the memory.
-This proved unsuccesful.
+We had hoped that removing these agents from the matrix would be enough to clean the memory.
+It was not so.
 
-One reason was MASON scheduler itself.
+Two components made garbage collection a major problem during development.
+The first was the MASON scheduler itself.
 To run an agent in MASON one needs to schedule it.
 Under the hood this means holding a reference of the agent in one \textit{heap} object, preventing garbage collection.
 Scheduling comes into two types: scheduling once or scheduling forever.
@@ -141,8 +163,8 @@ Because our agents had to act every year, we scheduled them forever but that mad
 
 This forced us into a ``least-worst'' analysis of our design choices.
 We could schedule agents once every turn by checking if they were still alive.
-This was bulky, burdensome and we would have had to create a new steppable just to make the check every turn.
-Similiarly we could have made the matrix holding agents steppable and made it make checks and activate agents directly.
+This would have been burdensome as we would have had to create a new steppable just to make the check every turn.
+Similiarly we could have made the matrix holding agents steppable and let it activate agents directly.
 But with this we would have lost many advantages of the premade \textit{Schedule} class, in particular automatic shuffling of activation order.
 The third way was to try and remove agents in the scheduler manually.
 
@@ -163,8 +185,51 @@ This prevented them from being garbage-collected.
 
 
 \section{Results}
+Replication was only a partial success. 
+In most cases we achieved relational equivalence \cite{springerlink:10.1007/BF01299065} rather than numerical identity.
+In a few situations docking simply failed.
+
+The behavior of standard cases was replicated successfully.
+Figure~\ref{figure4} and figure~\ref{figure5} show side by side the retiring behavior of the system and our replication.
+Every parameter was set as in the original paper.
+
+\begin{figure}
+\centering
+  \subfigure[Original Paper]{
+   \includegraphics[scale =.40] {figs/figure4.png}
+ }
+ \subfigure[MASON replication]{
+   \includegraphics[scale =.13] {figs/figure4_replication.png}
+ }
+
+\caption{20\% rational agents case comparison}
+\label{figure4}
+\end{figure}
+
+\begin{figure}
+\centering
+  \subfigure[Original Paper]{
+   \includegraphics[scale =.40] {figs/figure5.png}
+ }
+ \subfigure[MASON replication]{
+   \includegraphics[scale =.13] {figs/figure5_replication.png}
+ }
+
+\caption{5\% rational agents case comparison}
+\label{figure5}
+\end{figure}
+
+\subsection{Parameter Sweep}
+
+\subsection{Additional Sensitivity Sources}
+
+We find that whether imitator agents follow their threshold strictly or not is very important.
+When exactly half of the eligibles friends have retired, should the agent retire as well?
+
+
 
 %Interestingly, the age gap between new and old limit matters a lot!
+%Also whether the threshold is strict or not
 
 \section{Discussion}
 \section{Summary}
