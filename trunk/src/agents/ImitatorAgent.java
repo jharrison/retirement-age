@@ -10,8 +10,7 @@ import sim.engine.SimState;
 
 public class ImitatorAgent extends Agent {
 
-	private boolean selected = false;
-	public boolean getSelected() { return selected; }
+	@Override
 	public void setSelected(boolean val) {
 		selected = val;
 		showInNetwork = val;
@@ -172,8 +171,6 @@ public class ImitatorAgent extends Agent {
 
 	@Override
 	public double doubleValue() {
-		if (showInNetwork) return 5;
-		
 		switch (status) {
 		case RETIRED:	return 0;
 		case DEAD:		return 1;
@@ -183,7 +180,6 @@ public class ImitatorAgent extends Agent {
 	
 	@Override
 	protected void die() {
-		// TODO Auto-generated method stub
 		super.die();
 		//destroy your network
 		socialNetwork.clear();
