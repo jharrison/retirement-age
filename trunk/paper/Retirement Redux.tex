@@ -106,7 +106,20 @@ Intuitively, agents in this model share many similiarities.
 They age, they die, they are either allowed or not to retire.
 They are heterogeneous both in their endowments and their behavior.
 
-Code-wise their different endowments are their 
+Code-wise their different endowments are their variables, their different behavior are their class structure.
+We can take advantage of Java's OO paradigm.
+The UML diagram in figure~\ref{UML} describes the approach taken.
+Most of the behavior is recicled from the \textit{Agent} abstract class.
+Each subclass then overrides only the code pertaining retirement decision.
+
+\begin{figure}
+ \begin{center}
+  \includegraphics[scale=.45]{figs/UML.png}
+\caption{The class structure of the agents}
+\label{UML}
+ \end{center}
+\end{figure}
+
 
 
 \subsection{Garbage Collection}
@@ -137,14 +150,14 @@ Stopping an agent scheduled forever proved more troublesome than it should be.
 The \textit{Schedule} class does not allow for direct removal. 
 The \textit{Steppable} interface, common to all agents, does not allow for stopping.
 An unrelated \textit{Stoppable} is returned when the agent is first scheduled.
-This means that we need to create manually a reference to such agent and \textbf{after} scheduling it, link up the references; 
-then when the agent dies it can finally stop itself.
+What we had to do was to manually store the reference to the stoppable and pass it to the agent after it has been scheduled.
+Only then the agent dies can finally stop itself.
 
 The other garbage collection issue was with social networks.
 Agents every year purge their networks of their deceased friends. 
-But when they ``die'' the remaining references in the \textit{ArrayList} are not removed.
-This means that some of the old social networks reference each other and their agents with it.
-This prevented agents from being garbage-collected.
+But when they ``die'' the remaining references in the \textit{ArrayList} are automatically not removed.
+This meant that some of the old social networks referenced each other even when all its agents were dead.
+This prevented them from being garbage-collected.
 
 
 
