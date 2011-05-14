@@ -106,13 +106,16 @@ public class RetirementAgeModel extends SimState
     public double getProportionRetired() {
     	if (society == null)
     		return 0;
-    	int count = 0;
+    	int retiredCount = 0, eligibleCount = 0;
 		ArrayList<Agent> allAgents = society.getAllAgents();
 		for (Agent a : allAgents)
-			if (a.getStatus() == Status.RETIRED)
-				count++;
+			if ((a.getAge() >= retirementAge) && (a.getStatus() != Status.DEAD)) {
+				eligibleCount++;
+				if (a.getStatus() == Status.RETIRED)
+					retiredCount++;
+			}
 		
-		return count / (double)allAgents.size();
+		return retiredCount / (double)eligibleCount;
     }
 	
 	/**
