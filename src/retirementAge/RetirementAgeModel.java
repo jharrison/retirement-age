@@ -103,6 +103,11 @@ public class RetirementAgeModel extends SimState
 	public void setProportionRational(double val) { proportionRational = val; }
     public Object domProportionRational() { return new Interval(0.0, 1.0); }
     
+    public double randomAgentRetirementProb = 0.5;
+	public double getRandomAgentRetirementProb() { return randomAgentRetirementProb; }
+	public void setRandomAgentRetirementProb(double val) { randomAgentRetirementProb = val; }
+    public Object domRandomAgentRetirementProb() { return new Interval(0.0, 1.0); }
+    
     public double getProportionRetired() {
     	if (society == null)
     		return 0;

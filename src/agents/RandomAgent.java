@@ -32,11 +32,9 @@ public class RandomAgent extends Agent {
 			return Status.WORKING;
 		//otherwise
 		else{
-			//throw a coin
-			if(model.random.nextBoolean())
-				//50% you retire
+			if (model.random.nextDouble() < model.randomAgentRetirementProb)
 				return Status.RETIRED;
-			else//50% you don't
+			else
 				return Status.WORKING;
 		}
 	}
