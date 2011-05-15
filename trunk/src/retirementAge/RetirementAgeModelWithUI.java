@@ -1,23 +1,16 @@
 package retirementAge;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 
 import portrayals.AgentGridPortrayal2D;
 import portrayals.AgentPortrayal2D;
-
 import sim.display.Console;
 import sim.display.Controller;
 import sim.display.Display2D;
 import sim.display.GUIState;
 import sim.engine.SimState;
-import sim.portrayal.DrawInfo2D;
-import sim.portrayal.LocationWrapper;
-import sim.portrayal.grid.ObjectGridPortrayal2D;
-import sim.util.Bag;
-import agents.Agent;
 
 /**
  * GUI for Axtell's & Epstein's retirement age model.
@@ -27,9 +20,9 @@ import agents.Agent;
  */
 public class RetirementAgeModelWithUI extends GUIState
 {
-	public Display2D display;
-	public JFrame displayFrame;
-	AgentGridPortrayal2D agentPortrayal = new AgentGridPortrayal2D();
+	private Display2D display;
+	private JFrame displayFrame;
+	private AgentGridPortrayal2D agentPortrayal = new AgentGridPortrayal2D();
 
 	public RetirementAgeModelWithUI(SimState state) {
 		super(state);
