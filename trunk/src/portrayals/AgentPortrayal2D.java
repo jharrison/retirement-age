@@ -1,7 +1,9 @@
-package agents;
+package portrayals;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+
+import agents.Agent;
 
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.simple.RectanglePortrayal2D;

@@ -5,6 +5,9 @@ import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 
+import portrayals.AgentGridPortrayal2D;
+import portrayals.AgentPortrayal2D;
+
 import sim.display.Console;
 import sim.display.Controller;
 import sim.display.Display2D;
@@ -15,8 +18,6 @@ import sim.portrayal.LocationWrapper;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
 import sim.util.Bag;
 import agents.Agent;
-import agents.AgentGridPortrayal2D;
-import agents.AgentPortrayal2D;
 
 /**
  * GUI for Axtell's & Epstein's retirement age model.

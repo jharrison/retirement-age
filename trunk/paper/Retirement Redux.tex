@@ -188,14 +188,8 @@ This prevented them from being garbage-collected.
 The original model by Axtell and Epstein contained a unique custom graphical user interface (GUI) that we set out to match as closely as possible. 
 This required us to overcome some obstacles due to the conventions of MASON visualization. 
 For instance, MASON's grid's store items in a 2D array where the first index corresponds to the $x$ coordinate of the object and the second index corresponds to the $y$ coordinate. 
-Specifically, ObjectGrid2D defines the array as \lstinline!public Object[/**x*/][/**y*/] field;!
+Specifically, ObjectGrid2D defines the array as \lstinline!public Object[/**x*/][/**y*/] field;! This presents a challenge when we want to access a cohort in a single array since \lstinline!field[i]! gives the $i^{th}$ column of cells. In the original model, cohorts are arranged as rows.
 
-{
-\linespread{1}
-\begin{lstlisting}[float,caption= {The storage structure in ObjectGrid2D}, label={code:ObjectGrid2D}]
-    public Object[/**x*/][/**y*/] field;
-\end{lstlisting}
-}
 
 \begin{figure}
 \centering
