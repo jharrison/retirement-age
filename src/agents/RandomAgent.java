@@ -27,7 +27,7 @@ public class RandomAgent extends Agent {
 	@Override
 	protected Status doIRetire() {
 		//if you are not allowed to retire, don't
-		if(age < model.retirementAge)
+		if(age < model.minRetirementAge)
 			//don't retire
 			return Status.WORKING;
 		//otherwise

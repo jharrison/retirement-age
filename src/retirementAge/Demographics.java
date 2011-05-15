@@ -88,7 +88,7 @@ public class Demographics implements Steppable{
 			for(int agent = 0; agent < agentMatrix[age].length; agent++)
 				if (agentMatrix[age][agent] instanceof ImitatorAgent) {
 					ImitatorAgent a = (ImitatorAgent)agentMatrix[age][agent];
-					if (a.getAge() >= (model.minAge + model.networkExtent))
+					if (a.getAge() >= (model.minAge + model.networkAgeExtent))
 						a.fillNetwork();
 				}
 		

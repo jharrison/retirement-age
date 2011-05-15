@@ -61,7 +61,7 @@ public class RetirementAgeModelWithUI extends GUIState
 
 		display.setBackdrop(Color.black);
 
-		((Console)controller).setSize(380, 600);
+		((Console)controller).setSize(380, 420);
 	}
 
 	@Override

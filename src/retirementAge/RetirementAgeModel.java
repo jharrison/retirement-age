@@ -19,41 +19,41 @@ public class RetirementAgeModel extends SimState
 	 * This is the smallest possible death age for an agent
 	 */
 	public int minDeathAge = 60;
-	public int getMinDeathAge() { return minDeathAge; }
-	public void setMinDeathAge(int val) { minDeathAge = val; }
-    public Object domMinDeathAge() { return new Interval(50, 100); }
+//	public int getMinDeathAge() { return minDeathAge; }
+//	public void setMinDeathAge(int val) { minDeathAge = val; }
+//    public Object domMinDeathAge() { return new Interval(50, 100); }
 	
 	/**
 	 * This is the the minimum age for an agent. This is the first cohort
 	 */
 	public int minAge=20;
-	public int getMinAge() { return minAge; }
-	public void setMinAge(int val) { minAge = val; }
-    public Object domMinAge() { return new Interval(0, 40); }
+//	public int getMinAge() { return minAge; }
+//	public void setMinAge(int val) { minAge = val; }
+//    public Object domMinAge() { return new Interval(0, 40); }
 	
 	/**
 	 * This is the last cohort and also the largest possible death age
 	 */
 	public int maxAge = 100;
-	public int getMaxAge() { return maxAge; }
-	public void setMaxAge(int val) { maxAge = val; }
-    public Object domMaxAge() { return new Interval(0, 100); }
+//	public int getMaxAge() { return maxAge; }
+//	public void setMaxAge(int val) { maxAge = val; }
+//    public Object domMaxAge() { return new Interval(0, 100); }
 
 	/**
 	 * Minimum age to display in the GUI
 	 */
 	public int minDisplayAge = 55;	
-	public int getMinDisplayAge() { return minDisplayAge; }
-	public void setMinDisplayAge(int val) { minDisplayAge = val; }
-    public Object domMinDisplayAge() { return new Interval(20, 60); }
+//	public int getMinDisplayAge() { return minDisplayAge; }
+//	public void setMinDisplayAge(int val) { minDisplayAge = val; }
+//    public Object domMinDisplayAge() { return new Interval(20, 60); }
 	
 	/**
 	 * This is the minimum retirement age
 	 */
-	public int retirementAge = 65;
-	public int getRetirementAge() { return retirementAge; }
-	public void setRetirementAge(int val) { retirementAge = val; }
-    public Object domRetirementAge() { return new Interval(50, 75); }
+	public int minRetirementAge = 65;
+	public int getMinRetirementAge() { return minRetirementAge; }
+	public void setMinRetirementAge(int val) { minRetirementAge = val; }
+    public Object domMinRetirementAge() { return new Interval(50, 75); }
 	
 	/**
 	 * This is the C of the paper: how many agents for each cohort
@@ -66,10 +66,10 @@ public class RetirementAgeModel extends SimState
 	/**
 	 * This is the E of the paper: how many years backwards and forwards should an agent look for when creating his social network?
 	 */
-	public int networkExtent = 5;
-	public int getNetworkExtent() { return networkExtent; }
-	public void setNetworkExtent(int val) { networkExtent = val; }
-    public Object domNetworkExtent() { return new Interval(0, 10); }
+	public int networkAgeExtent = 5;
+	public int getNetworkAgeExtent() { return networkAgeExtent; }
+	public void setNetworkAgeExtent(int val) { networkAgeExtent = val; }
+    public Object domNetworkAgeExtent() { return new Interval(0, 10); }
 	
 	/**
 	 * The minimum number of friends in an agent's network
@@ -114,7 +114,7 @@ public class RetirementAgeModel extends SimState
     	int retiredCount = 0, eligibleCount = 0;
 		ArrayList<Agent> allAgents = society.getAllAgents();
 		for (Agent a : allAgents)
-			if ((a.getAge() >= retirementAge) && (a.getStatus() != Status.DEAD)) {
+			if ((a.getAge() >= minRetirementAge) && (a.getStatus() != Status.DEAD)) {
 				eligibleCount++;
 				if (a.getStatus() == Status.RETIRED)
 					retiredCount++;
