@@ -29,7 +29,7 @@
 	language=Java,
 	basicstyle=\small\sffamily,
 	tabsize=4,
-	numbers=left,
+	numbers=left
 }
 
 \renewcommand{\topfraction}{0.85}
@@ -78,7 +78,7 @@ Mimesis is all that matter.
 
 \subsection{MASON}
 
-We decided to replicate the model trough the MASON framework.
+We decided to replicate the model trough the MASON framework \cite{luke2005mason}.
 This allows for the use of premade structures when programming in Java.
 We did not have, nor we should have had, access to the original code in C.
 Replication would be invalidated if we used anything but the original paper.
@@ -183,6 +183,32 @@ This meant that some of the old social networks referenced each other even when 
 This prevented them from being garbage-collected.
 
 
+\subsection{Visualization}
+
+The original model by Axtell and Epstein contained a unique custom graphical user interface (GUI) that we set out to match as closely as possible. 
+This required us to overcome some obstacles due to the conventions of MASON visualization. 
+For instance, MASON's grid's store items in a 2D array where the first index corresponds to the $x$ coordinate of the object and the second index corresponds to the $y$ coordinate. 
+Specifically, ObjectGrid2D defines the array as \lstinline!public Object[/**x*/][/**y*/] field;!
+
+{
+\linespread{1}
+\begin{lstlisting}[float,caption= {The storage structure in ObjectGrid2D}, label={code:ObjectGrid2D}]
+    public Object[/**x*/][/**y*/] field;
+\end{lstlisting}
+}
+
+\begin{figure}
+\centering
+  \subfigure[Original Paper]{
+   \includegraphics[width=0.9\textwidth] {figs/orig-gui-screenshot.png}
+ }
+ \subfigure[MASON replication]{
+   \includegraphics[width=0.9\textwidth] {figs/gui-screenshot1.png}
+ }
+
+\caption{Comparison of the original visualization with the visualization in the replication MASON model. }
+\label{fig:gui-comparison}
+\end{figure}
 
 
 \section{Results}
@@ -267,8 +293,6 @@ Whenever the original source code is missing, only through replication one is ab
 
 This goes also to show that minor assumptions might have great impact.
 In this case a change in threshold from $.5$ to $.499$ mean the difference between mass retirement and perennial work.
-
-
 
 
 
