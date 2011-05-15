@@ -220,9 +220,34 @@ Every parameter was set as in the original paper.
 \label{figure5}
 \end{figure}
 
+We manage to replicate the fact that the less rational agents, the more it takes for society to retire.
+We also managed to replicate the loss of monotonicity as rational agents decrease in numbers.
+We couldn't replicate numerically the waiting period, unfortunately.
+Figure~\ref{figure5}'s replication takes a fourth of the time it took the original model to let mass-retirement emerge.
+
+
+
 \subsection{Parameter Sweep}
 
-\subsection{Additional Sensitivity Sources}
+Parameter sweep replication was less successful than the previous chapter.
+
+\begin{figure}
+\centering
+  \subfigure[Original Paper]{
+   \includegraphics[scale =.70] {figs/figure6.png}
+ }
+ \subfigure[MASON replication]{
+   \includegraphics[scale =.25] {figs/figure6_replication.png}
+ }
+
+\caption{Rational agents sweep, black: 0\% random, red: 5\% random, blue 10\% random}
+\label{figure5}
+\end{figure}
+
+
+
+
+\subsection{Threshold dynamic}
 
 We find that whether imitator agents follow their threshold strictly or not is very important.
 When exactly half of the eligibles friends have retired, should the agent retire as well?
