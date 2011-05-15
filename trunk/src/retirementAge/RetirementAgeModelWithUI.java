@@ -1,6 +1,7 @@
 package retirementAge;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 
@@ -9,9 +10,12 @@ import sim.display.Controller;
 import sim.display.Display2D;
 import sim.display.GUIState;
 import sim.engine.SimState;
+import sim.portrayal.DrawInfo2D;
 import sim.portrayal.LocationWrapper;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
+import sim.util.Bag;
 import agents.Agent;
+import agents.AgentGridPortrayal2D;
 import agents.AgentPortrayal2D;
 
 /**
@@ -20,25 +24,11 @@ import agents.AgentPortrayal2D;
  * @author jharrison
  *
  */
-@SuppressWarnings("serial")
 public class RetirementAgeModelWithUI extends GUIState
 {
 	public Display2D display;
 	public JFrame displayFrame;
-
-	// Custom portrayal that allows us to select agents so they can draw their social network
-	ObjectGridPortrayal2D agentPortrayal = new ObjectGridPortrayal2D() {
-		@Override
-		public boolean setSelected(LocationWrapper wrapper, boolean selected) {
-			if (wrapper == null) return true;
-			if (wrapper.getFieldPortrayal() != this) return true;
-
-			Object obj = wrapper.getObject();
-			if (obj instanceof Agent) ((Agent)obj).setSelected(selected);
-
-			return super.setSelected(wrapper, selected);
-		}
-	};
+	AgentGridPortrayal2D agentPortrayal = new AgentGridPortrayal2D();
 
 	public RetirementAgeModelWithUI(SimState state) {
 		super(state);
