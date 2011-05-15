@@ -48,9 +48,6 @@ public class Demographics implements Steppable{
 
 		//create the agent matrix: for each allowed age add the cohort size given by the RetirementAgeModel
 		agentMatrix = new Agent[model.maxAge-model.minAge + 1][model.cohortSize];
-		
-		//now fill it
-		reset();
 	}
 	
 	private Agent createNewAgent(int age) {
@@ -76,13 +73,24 @@ public class Demographics implements Steppable{
 	 * @param proportionRational the % of agents being rational
 	 * @param random the randomizer to fill the matrix
 	 */
-	public void reset() {
+	public void initAgents() {
 
 		//for each cohort
 		for(int age = 0; age < agentMatrix.length; age++)
 			//for each agent in the cohort
 			for(int agent = 0; agent < agentMatrix[age].length; agent++)
 				agentMatrix[age][agent] = createNewAgent(model.minAge + age);	
+		
+		// initialize the social networks
+		//for each cohort
+		for(int age = 0; age < agentMatrix.length; age++)
+			//for each agent in the cohort
+			for(int agent = 0; agent < agentMatrix[age].length; agent++)
+				if (agentMatrix[age][agent] instanceof ImitatorAgent) {
+					ImitatorAgent a = (ImitatorAgent)agentMatrix[age][agent];
+					if (a.getAge() >= (model.minAge + model.networkExtent))
+						a.fillNetwork();
+				}
 		
 		copyToGrid();
 	}

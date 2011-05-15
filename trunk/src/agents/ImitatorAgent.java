@@ -10,6 +10,9 @@ import sim.engine.SimState;
 
 public class ImitatorAgent extends Agent {
 
+	/**
+	 * When the agent is selected, set it's network to draw
+	 */
 	@Override
 	public void setSelected(boolean val) {
 		selected = val;
@@ -41,7 +44,7 @@ public class ImitatorAgent extends Agent {
 	/**
 	 * This is called to create the network. It is called automatically during the first step when it realizes the socialNetwork doesn't exist
 	 */
-	protected void fillNetwork()
+	public void fillNetwork()
 	{
 		//instantiate the network!
 		socialNetwork = new HashSet<Agent>();
@@ -97,10 +100,7 @@ public class ImitatorAgent extends Agent {
 		// fill the social network after the agent is old enough 
 		if (age >= (model.minAge + model.networkExtent) && (socialNetwork == null))
 			fillNetwork();
-//		//if the network don't exist, create it!
-//		if(socialNetwork == null)
-//			//fill the network!
-//			fillNetwork();
+
 		//call the Agent step
 		super.step(arg0);
 	}
@@ -152,8 +152,7 @@ public class ImitatorAgent extends Agent {
 		
 	}
 	
-	private void cleanNetwork(){
-		
+	private void cleanNetwork(){		
 		//prepare the collection where we store what to remove
 		Collection<Agent> toRemove = new ArrayList<Agent>();
 		
@@ -165,8 +164,7 @@ public class ImitatorAgent extends Agent {
 		}
 		
 		//now remove them from the set
-		socialNetwork.removeAll(toRemove);
-		
+		socialNetwork.removeAll(toRemove);		
 	}
 
 	@Override
