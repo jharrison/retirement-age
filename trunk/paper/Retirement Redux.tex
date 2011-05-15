@@ -44,7 +44,8 @@
 \title{\doctitle}
 %\shorttitle{Retirement Redux}
 \author{Ernesto Carrella \\ Joseph F. Harrison}
-\authorrunning{\doctitle}
+\authorrunning{E. Carrella and J. F. Harrison}
+\titlerunning{Retirement Redux}
 \institute{George Mason University}
 
 \toctitle{\doctitle}
@@ -62,12 +63,12 @@ We replicated Axtell's and Epstein's Retirement Age model\cite{axtell_coordinati
 
 The model simulates retirement decision of heterogeneous agents.
 Agents differ one from the other in terms of their behavior rules, social network and death age.
-Every year every agent decides whether to retire or keep working. 
+Every year each agent decides whether to retire or keep working. 
 
-There are three tipes of agents.
+There are three types of agents.
 Random agents choose whether to retire or not by tossing a coin.
 Rational agents always retire as soon as possible.
-Imitators instead do what the majority of eligibles do in their social network.
+Imitators look at the agents in their social network who are eligible for retirement, and follow what the majority of them are doing.
 
 The main feature of the model is the gradual emergence of retirement norms.
 Although 65 is fixed to be the retirement age, the population decides to retire at that age only gradually.
@@ -185,10 +186,27 @@ This prevented them from being garbage-collected.
 
 \subsection{Visualization}
 
-The original model by Axtell and Epstein contained a unique custom graphical user interface (GUI) that we set out to match as closely as possible. 
+The original model by Axtell and Epstein contained a unique custom graphical user interface (GUI) that we set out to match as closely as possible. Figure~\ref{fig:gui-comparison} shows a comparison of the GUI in the original paper to that in the replicated MASON model.
+
+\begin{figure}
+\centering
+  \subfigure[Original Paper]{
+   \includegraphics[width=0.9\textwidth] {figs/orig-gui-screenshot.png}
+ }
+ \subfigure[MASON replication]{
+   \includegraphics[width=0.9\textwidth] {figs/gui-screenshot1.png}
+ }
+\caption{Comparison of the original visualization with the visualization in the replication MASON model. }
+\label{fig:gui-comparison}
+\end{figure}
 This required us to overcome some obstacles due to the conventions of MASON visualization. 
 For instance, MASON's grid's store items in a 2D array where the first index corresponds to the $x$ coordinate of the object and the second index corresponds to the $y$ coordinate. 
-Specifically, ObjectGrid2D defines the array as \lstinline!public Object[/**x*/][/**y*/] field;! This presents a challenge when we want to access a cohort in a single array since \lstinline!field[i]! gives the $i^{th}$ column of cells. In the original model, cohorts are arranged as rows.
+Specifically, ObjectGrid2D defines the array as \lstinline!public Object[/**x*/][/**y*/] field;! 
+This presents a challenge when we want to access a cohort in a single array since \lstinline!field[i]! gives the $i^{th}$ column of cells. In the original model, cohorts are arranged as rows. 
+We solved this problem by storing the agents in an auxiliary array \lstinline!Agent[][] agentMatrix! such that \lstinline!agentMatrix[i]! gives the $i^{th}$ cohort.
+To get the auxiliary array into the form MASON needs for displaying, we copied and transposed to the aforementioned \lstinline!field!.
+
+
 
 
 \begin{figure}
@@ -199,7 +217,6 @@ Specifically, ObjectGrid2D defines the array as \lstinline!public Object[/**x*/]
  \subfigure[MASON replication]{
    \includegraphics[width=0.9\textwidth] {figs/gui-screenshot1.png}
  }
-
 \caption{Comparison of the original visualization with the visualization in the replication MASON model. }
 \label{fig:gui-comparison}
 \end{figure}
