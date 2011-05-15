@@ -47,7 +47,7 @@ public abstract class Agent implements Steppable, Valuable {
 	protected int age;
 	
 	/**
-	 * This is the death age of the agent, that is the time it dies.
+	 * This is the age at which the agent will die
 	 */
 	protected int deathAge;
 	

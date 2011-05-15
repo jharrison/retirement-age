@@ -4,18 +4,15 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
-import agents.AgentPortrayal2D;
-import agents.ImitatorAgent;
-
 import sim.display.Console;
 import sim.display.Controller;
 import sim.display.Display2D;
 import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.LocationWrapper;
-import sim.portrayal.grid.FastObjectGridPortrayal2D;
 import sim.portrayal.grid.ObjectGridPortrayal2D;
-import sim.util.gui.SimpleColorMap;
+import agents.Agent;
+import agents.AgentPortrayal2D;
 
 /**
  * GUI for Axtell's & Epstein's retirement age model.
@@ -30,7 +27,6 @@ public class RetirementAgeModelWithUI extends GUIState
 	public JFrame displayFrame;
 
 	// Custom portrayal that allows us to select agents so they can draw their social network
-	//FastObjectGridPortrayal2D agentPortrayal = new FastObjectGridPortrayal2D() {
 	ObjectGridPortrayal2D agentPortrayal = new ObjectGridPortrayal2D() {
 		@Override
 		public boolean setSelected(LocationWrapper wrapper, boolean selected) {
@@ -38,7 +34,7 @@ public class RetirementAgeModelWithUI extends GUIState
 			if (wrapper.getFieldPortrayal() != this) return true;
 
 			Object obj = wrapper.getObject();
-			if (obj instanceof ImitatorAgent) ((ImitatorAgent) obj).setSelected(selected);
+			if (obj instanceof Agent) ((Agent)obj).setSelected(selected);
 
 			return super.setSelected(wrapper, selected);
 		}
@@ -60,16 +56,6 @@ public class RetirementAgeModelWithUI extends GUIState
 
 	public void setupPortrayals() {
 		
-		// Agent visualization
-		// 0) retired: 	red
-		// 1) dead: 	white
-		// 2) rational: pink
-		// 3) imitator: blue
-		// 4) random: 	yellow
-		// 4) in network: 	black
-		
-//		agentPortrayal.setMap(new SimpleColorMap(
-//				new Color[] { Color.red, Color.white, Color.pink, Color.blue, Color.yellow, Color.black }));
 		agentPortrayal.setPortrayalForAll(new AgentPortrayal2D());
 		agentPortrayal.setField(((RetirementAgeModel)state).agents);
 
