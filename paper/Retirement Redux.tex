@@ -1,5 +1,5 @@
 
-\documentclass[runningheads,a4paper]{llncs}
+\documentclass[runningheads,a4paper]{article}
 
 \usepackage{amssymb}
 %\setcounter{tocdepth}{3}
@@ -38,18 +38,18 @@
 
 \providecommand{\abs}[1]{\lvert#1\rvert}
 
-\newcommand{\doctitle}[0]{Retirement Redux: A replication of Axtell's and Epstein's Retirment Age model}
+\newcommand{\doctitle}[0]{Retirement Redux: A replication of Axtell's and Epstein's Retirement Age model}
 
 \begin{document}
 \title{\doctitle}
 %\shorttitle{Retirement Redux}
 \author{Ernesto Carrella \\ Joseph F. Harrison}
-\authorrunning{E. Carrella and J. F. Harrison}
-\titlerunning{Retirement Redux}
-\institute{George Mason University}
+%\authorrunning{E. Carrella and J. F. Harrison}
+%\titlerunning{Retirement Redux}
+%\institute{George Mason University}
 
-\toctitle{\doctitle}
-\tocauthor{Authors' Instructions}
+%\toctitle{\doctitle}
+%\tocauthor{Authors' Instructions}
 \maketitle
 
 \section*{Abstract}
@@ -58,8 +58,23 @@ This is the Abstract
 \label{sec:intro}
 
 We replicated Axtell's and Epstein's Retirement Age model\cite{axtell_coordination_2006}.
+We chose it because of its simplicity.
+We hoped that by keeping the model simple we could achieve perfect replication.
 
-\section{Model Description}
+Replication was only a partial success.
+We managed to replicate parameters relationship and their general effect on retirement decisions.
+But we couldn't reproduce identical numeric results.
+Our model always seemed to be faster than the original one.
+
+We decided to use MASON to replicate the model.
+In particular we decided to test MASON claim of keeping visualization and modeling separate.
+This also proved less successful than expected.
+
+The trade-off of using Java for programming is an increase in difficulty in exchange for more flexibility.
+This project was too simple to take advantage of most of the perks of MASON.
+Unfortunately it wasn't simple enough to ignore some of the additional complications of Java, especially garbage collection.
+
+\subsection{Model Description}
 
 The model simulates retirement decision of heterogeneous agents.
 Agents differ one from the other in terms of their behavior rules, social network and death age.
@@ -78,7 +93,6 @@ Mimesis is all that matter.
 \section{Replication}
 
 \subsection{MASON}
-
 We decided to replicate the model trough the MASON framework \cite{luke2005mason}.
 This allows for the use of premade structures when programming in Java.
 We did not have, nor we should have had, access to the original code in C.
@@ -93,27 +107,27 @@ We used an \textit{ArrayList} to store Agent's networks.
 This allows us to remove deceased friends and to modify the size of the network over time.
 For this very simple model, everything else would have been an overkill.
 
-Another great advantage of Java is the proliferance of other packages we can integrate to our model.
+Another great advantage of Java is the proliferation of other packages we can integrate to our model.
 OpenCSV was used to output formatted data.
 Network packages like JUNG would have had very little added value.
 Again, the simplicity of the model didn't call for any addition.
 
 One feature of MASON is the complete separation between the graphic and the model code.
 We decided to put this to a test so that each team-mate would focus on only one side of the code.
-This proved not very succesful.
+This proved not very successful.
 The model-side had to be progressively modified so that it would update the graphics-side at critical times.
-This is particularly troublesome given the fact that in this model the graphical side is ancilliary.
+This is particularly troublesome given the fact that in this model the graphical side is ancillary.
 
 \subsection{Object Orientation}
 
-Intuitively, agents in this model share many similiarities.
+Intuitively, agents in this model share many similarities.
 They age, they die, they are either allowed or not to retire.
 They are heterogeneous both in their endowments and their behavior.
 
 Code-wise their different endowments are their variables, their different behavior are their class structure.
 We can take advantage of Java's OO paradigm.
 The UML diagram in figure~\ref{UML} describes the approach taken.
-Most of the behavior is recicled from the \textit{Agent} abstract class.
+Most of the behavior is recycled from the \textit{Agent} abstract class.
 Each subclass then overrides only the code pertaining retirement decision.
 
 \begin{figure}
@@ -166,7 +180,7 @@ Because our agents had to act every year, we scheduled them forever but that mad
 This forced us into a ``least-worst'' analysis of our design choices.
 We could schedule agents once every turn by checking if they were still alive.
 This would have been burdensome as we would have had to create a new steppable just to make the check every turn.
-Similiarly we could have made the matrix holding agents steppable and let it activate agents directly.
+Similarly we could have made the matrix holding agents steppable and let it activate agents directly.
 But with this we would have lost many advantages of the premade \textit{Schedule} class, in particular automatic shuffling of activation order.
 The third way was to try and remove agents in the scheduler manually.
 
@@ -313,9 +327,9 @@ Specifically, either the transition occur almost instantly or it never happens.
 In fact, when the transition fails a new equilibrium with almost everyone working emerges.
 
 Very interestingly is that we can get somewhat more similar results to the paper if we focus on transition from 65 to 60 instead.
-In this case the transition is quick but not instantaneous and dependant on the population proportions.
+In this case the transition is quick but not instantaneous and Dependant on the population proportions.
 
-It is instructive as it streches the definition of relational equivalence.
+It is instructive as it stretches the definition of relational equivalence.
 In this case, at first sight, it looks like a utter failure.
 But with a slight modification of the target we can get more reasonable fits.
 
