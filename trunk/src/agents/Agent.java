@@ -106,7 +106,7 @@ public abstract class Agent implements Steppable, Valuable {
 			//stop linking to the switchoff
 			switchOff = null;
 		}
-		else if (status == Status.WORKING && age>= model.retirementAge)	//(3) otherwise, check if you want to retire!
+		else if (status == Status.WORKING && age>= model.minRetirementAge)	//(3) otherwise, check if you want to retire!
 			status = doIRetire();	
 	}
 

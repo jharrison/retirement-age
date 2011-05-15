@@ -55,7 +55,7 @@ public class ImitatorAgent extends Agent {
 						  + model.minNetworkSize ;
 		
 		//how far the model should go
-		int extent = model.random.nextInt(model.networkExtent+1);
+		int extent = model.random.nextInt(model.networkAgeExtent+1);
 		
 		//what is the actual age min and age max?
 		
@@ -98,7 +98,7 @@ public class ImitatorAgent extends Agent {
 	public void step(SimState arg0)
 	{
 		// fill the social network after the agent is old enough 
-		if (age >= (model.minAge + model.networkExtent) && (socialNetwork == null))
+		if (age >= (model.minAge + model.networkAgeExtent) && (socialNetwork == null))
 			fillNetwork();
 
 		//call the Agent step
@@ -128,7 +128,7 @@ public class ImitatorAgent extends Agent {
 		for(Agent x : socialNetwork)
 		{
 			//if x is old enough (and he is not dead)
-			if(x!= null && x.getAge() >= model.retirementAge && x.getStatus() != Status.DEAD)
+			if(x!= null && x.getAge() >= model.minRetirementAge && x.getStatus() != Status.DEAD)
 			{
 				//x is a friend that can retire
 				friendsThatCanRetire++;
