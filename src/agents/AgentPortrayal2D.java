@@ -10,14 +10,15 @@ import sim.util.gui.SimpleColorMap;
 @SuppressWarnings("serial")
 public class AgentPortrayal2D extends RectanglePortrayal2D
 {
-
 	// Agent colors
-	// 0) retired: 	red
-	// 1) dead: 	white
-	// 2) rational: pink
-	// 3) imitator: blue
-	// 4) random: 	yellow
-	private final SimpleColorMap map = new SimpleColorMap(new Color[] { Color.red, Color.white, Color.pink, Color.blue, Color.yellow });
+	private final SimpleColorMap agentColors = 
+		new SimpleColorMap(new Color[] { 
+				Color.red, 					// retired
+				Color.white, 				// dead
+				new Color(232, 43, 132), 	// (pink) rational
+				new Color(60, 174, 239), 	// (blue) imitator
+				new Color(254, 247, 60) 	// (yellow) random
+				});
 
 	@Override
 	public void draw(Object object, Graphics2D graphics, DrawInfo2D info) {
@@ -25,7 +26,7 @@ public class AgentPortrayal2D extends RectanglePortrayal2D
 		if (a.selected)
 			paint = Color.black;
 		else
-			paint = map.getColor(a.doubleValue());
+			paint = agentColors.getColor(a.doubleValue());
 		super.draw(object, graphics, info);
 
         graphics.setColor(Color.black);

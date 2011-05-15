@@ -67,7 +67,7 @@ public class RetirementAgeModelWithUI extends GUIState
 	public void init(Controller c) {
 		super.init(c);
 
-		display = new Display2D(800, 800, this, 1);
+		display = new Display2D(800, 640, this, 1);
 													
 		displayFrame = display.createFrame();
 		c.registerFrame(displayFrame); 										

@@ -42,7 +42,7 @@ public class RetirementAgeModel extends SimState
 	/**
 	 * Minimum age to display in the GUI
 	 */
-	public int minDisplayAge = 50;	
+	public int minDisplayAge = 55;	
 	public int getMinDisplayAge() { return minDisplayAge; }
 	public void setMinDisplayAge(int val) { minDisplayAge = val; }
     public Object domMinDisplayAge() { return new Interval(20, 60); }
