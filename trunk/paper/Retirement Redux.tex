@@ -250,6 +250,9 @@ Figure~\ref{figure5}'s replication takes a fourth of the time it took the origin
 \subsection{Parameter Sweep}
 
 Parameter sweep replication was less successful than the previous chapter.
+Figure~\ref{figure6} shows the difference in replicating runs by switching the proportion of agents in the population.
+On one side the results are decent enough: the more the population is dominated by imitators the more it takes to retire en masse.
+On the other the numbers are very different.
 
 \begin{figure}
 \centering
@@ -261,11 +264,43 @@ Parameter sweep replication was less successful than the previous chapter.
  }
 
 \caption{Rational agents sweep, black: 0\% random, red: 5\% random, blue 10\% random}
-\label{figure5}
+\label{figure6}
 \end{figure}
 
+We got better results when replicating changes in the maximum network size.
+As figure~\ref{figure8} shows we replicate both the increase in average and standard deviation.
+Again, we failed to achieve numerical identity.
+Our model can be 10 times faster in reaching full-retirement state.
 
+\begin{figure}
+\centering
+  \subfigure[Original Paper]{
+   \includegraphics[scale =.70] {figs/figure8.png}
+ }
+ \subfigure[MASON replication]{
+   \includegraphics[scale =.25] {figs/figure8_replication.png}
+ }
 
+\caption{Changes in time to get full-retirement equilibrium by changing maximum network size. Grey dots represent runs}
+\label{figure8}
+\end{figure}
+
+\subsection{Transition from 65 to 62}
+
+The attempt to replicate retirement dynamics when age limit passes from 65 to 62 was a failure.
+The original paper mimic real data: society moves slowly from one equilibrium to the next.
+In particular it was shown that the higher the proportion of imitators the more slowly such result was obtained.
+
+In our model transition dynamic are markedly non-linear.
+Specifically, either the transition occur almost instantly or it never happens.
+In fact, when the transition fails a new equilibrium with almost everyone working emerges.
+
+Very interestingly is that we can get somewhat more similar results to the paper if we focus on transition from 65 to 60 instead.
+In this case the transition is quick but not instantaneous and dependant on the population proportions.
+
+It is instructive as it streches the definition of relational equivalence.
+In this case, at first sight, it looks like a utter failure.
+But with a slight modification of the target we can get more reasonable fits.
 
 \subsection{Threshold dynamic}
 
@@ -288,13 +323,25 @@ Whenever the original source code is missing, only through replication one is ab
 This goes also to show that minor assumptions might have great impact.
 In this case a change in threshold from $.5$ to $.499$ mean the difference between mass retirement and perennial work.
 
+\section{Conclusion}
+
+In this paper we tried to singlemindedly focus on replication.
+We chose the retirement model because its dynamics are simple and its behavior rules easy to program.
+
+In spite of this we could only partially replicate results.
+This casts serious concerns over replication in general.
+It underlines how access to the original source code is a must.
+
+We also tested some of the advantages and disadvantages of programming with MASON.
+This model was too simple to take advantage of many of the features of Java.
+Nevertheless even for such elementary model object orientation proved helpful.
+Unfortunately we also spent much time fixing garbage collection issues due to MASON and Java misuse.
+Programming got in the way of modeling.
 
 
-%Interestingly, the age gap between new and old limit matters a lot!
-%Also whether the threshold is strict or not
 
-\section{Discussion}
-\section{Summary}
+
+
 
 \bibliographystyle{splncs03}
 \bibliography{references}
