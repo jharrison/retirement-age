@@ -53,18 +53,23 @@
 \maketitle
 
 \section*{Abstract}
-This is the Abstract
+In this paper, we present a replication of Axtell's and Epstein's Retirement Age model\cite{axtell_coordination_2006}. 
+The original model is straightforward in design and nicely generates patterns of norm adoption. 
+We hoped that due to its simplicity, we'd be able to replicate the model perfectly but this was not the case.
+The parameters affect the model in ways that are consistent with the original, but our transition and convergence times
+are much shorter, sometimes by as much as two orders of magnitude.
+
 \section{Introduction}
 \label{sec:intro}
 
-We replicated Axtell's and Epstein's Retirement Age model\cite{axtell_coordination_2006}.
+We replicated Axtell's and Epstein's Retirement Age model\cite{axtell_coordination_2006}. 
 We chose it because of its simplicity.
 We hoped that by keeping the model simple we could achieve perfect replication.
 
 Replication was only a partial success.
 We managed to replicate parameters relationship and their general effect on retirement decisions.
 But we couldn't reproduce identical numeric results.
-Our model always seemed to be faster than the original one.
+Our model always seemed to transition and converge faster than the original.
 
 We decided to use MASON to replicate the model.
 In particular we decided to test MASON claim of keeping visualization and modeling separate.
@@ -76,7 +81,7 @@ Unfortunately it wasn't simple enough to ignore some of the additional complicat
 
 \subsection{Model Description}
 
-The model simulates retirement decision of heterogeneous agents.
+The model simulates retirement decisions of heterogeneous agents.
 Agents differ one from the other in terms of their behavior rules, social network and death age.
 Every year each agent decides whether to retire or keep working. 
 
@@ -200,28 +205,13 @@ This prevented them from being garbage-collected.
 
 \subsection{Visualization}
 
-The original model by Axtell and Epstein contained a unique custom graphical user interface (GUI) that we set out to match as closely as possible. Figure~\ref{fig:gui-comparison} shows a comparison of the GUI in the original paper to that in the replicated MASON model.
-
-\begin{figure}
-\centering
-  \subfigure[Original Paper]{
-   \includegraphics[width=0.9\textwidth] {figs/orig-gui-screenshot.png}
- }
- \subfigure[MASON replication]{
-   \includegraphics[width=0.9\textwidth] {figs/gui-screenshot1.png}
- }
-\caption{Comparison of the original visualization with the visualization in the replication MASON model. }
-\label{fig:gui-comparison}
-\end{figure}
+The original model by Axtell and Epstein contained a unique custom graphical user interface (GUI) that we set out to match as closely as possible (see Figure~\ref{fig:gui-comparison}).
 This required us to overcome some obstacles due to the conventions of MASON visualization. 
-For instance, MASON's grid's store items in a 2D array where the first index corresponds to the $x$ coordinate of the object and the second index corresponds to the $y$ coordinate. 
+For instance, MASON stores grid objects in a 2D array where the first index corresponds to the $x$ coordinate of the object and the second index corresponds to the $y$ coordinate. 
 Specifically, ObjectGrid2D defines the array as \lstinline!public Object[/**x*/][/**y*/] field;! 
 This presents a challenge when we want to access a cohort in a single array since \lstinline!field[i]! gives the $i^{th}$ column of cells. In the original model, cohorts are arranged as rows. 
 We solved this problem by storing the agents in an auxiliary array \lstinline!Agent[][] agentMatrix! such that \lstinline!agentMatrix[i]! gives the $i^{th}$ cohort.
 To get the auxiliary array into the form MASON needs for displaying, we copied and transposed to the aforementioned \lstinline!field!.
-
-
-
 
 \begin{figure}
 \centering
