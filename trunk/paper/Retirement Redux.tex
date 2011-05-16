@@ -72,11 +72,10 @@ By keeping the model simple, we hoped to achieve a perfect replication. The repl
 We managed to replicate parameters relationship and their general effect on retirement decisions, but we couldn't reproduce identical numeric results.
 Our model always seemed to transition and converge faster than the original.
 
-We decided to use MASON to replicate the model.
-In particular we decided to test MASON claim of keeping visualization and modeling separate.
-This also proved less successful than expected.
-
-The trade-off of using Java for programming is an increase in difficulty in exchange for more flexibility.
+We decided to use the MASON simulation toolkit \cite{luke2005mason} to create our replication. 
+The original model was programmed in C and is specific to Mac OS version 9. 
+MASON is written in Java, which allows broad portability between different operating systems.
+The trade-off of using Java and using a platform like MASON is a decrease in flexibility.
 This project was too simple to take advantage of most of the perks of MASON.
 Unfortunately it wasn't simple enough to ignore some of the additional complications of Java, especially garbage collection.
 
@@ -95,6 +94,24 @@ The main feature of the model is the gradual emergence of retirement norms.
 Although 65 is fixed to be the retirement age, the population decides to retire at that age only gradually.
 This paper tries to model retirement decision without economic rationale.
 Mimesis is all that matter.
+
+\subsection{Parameters}
+
+We implemented all the parameters of the original model as shown in Figure~\ref{fig:params}. 
+Note that the proportion of imitators is specified implicitly as the remaining group not specified as either rational or random.
+The item labeled ``ProportionRetired'' is for monitoring the output, rather than setting a parameter.
+
+\begin{figure}
+\centering
+  \subfigure[Table from Original Paper]{
+   \includegraphics[width=0.46\textwidth] {figs/orig-param-table.png}
+ }
+ \subfigure[Model tab in MASON replication]{
+   \includegraphics[width=0.46\textwidth] {figs/ModelParametersTab.png}
+ }
+\caption{Parameters in the original model and in the replication.}
+\label{fig:params}
+\end{figure}
 
 \section{Replication}
 
@@ -152,15 +169,13 @@ This allows for sub-classes to override the \textit{doIRetire} function and stil
 \linespread{1}
 \begin{lstlisting}[float,caption= {Agent's step class}, label={step}]
 public void step(SimState arg0) {
-		
-		age++;
-
-		if(age >= deathAge){
-			this.die();
-		}
-		else if (status == Status.WORKING && age>= model.retirementAge)	
-			status = doIRetire();	
+	age++;
+	if(age >= deathAge){
+		this.die();
 	}
+	else if (status == Status.WORKING && age >= model.retirementAge)	
+		status = doIRetire();	
+}
 
 \end{lstlisting}
 }
@@ -282,7 +297,7 @@ On the other the numbers are very different.
    \includegraphics[scale =.70] {figs/figure6.png}
  }
  \subfigure[MASON replication]{
-   \includegraphics[scale =.25] {figs/figure6_replication.png}
+   \includegraphics[scale =.45] {figs/figure6_replication.pdf}
  }
 
 \caption{Rational agents sweep, black: 0\% random, red: 5\% random, blue 10\% random}
@@ -297,10 +312,10 @@ Our model can be 10 times faster in reaching full-retirement state.
 \begin{figure}
 \centering
   \subfigure[Original Paper]{
-   \includegraphics[scale =.70] {figs/figure8.png}
+   \includegraphics[scale =.90] {figs/figure8.png}
  }
  \subfigure[MASON replication]{
-   \includegraphics[scale =.25] {figs/figure8_replication.png}
+   \includegraphics[scale =.35] {figs/figure8_replication.pdf}
  }
 
 \caption{Changes in time to get full-retirement equilibrium by changing maximum network size. Grey dots represent runs}
@@ -309,19 +324,35 @@ Our model can be 10 times faster in reaching full-retirement state.
 
 \subsection{Transition from 65 to 62}
 
-The attempt to replicate retirement dynamics when age limit passes from 65 to 62 was a failure.
-The original paper mimic real data: society moves slowly from one equilibrium to the next.
-In particular it was shown that the higher the proportion of imitators the more slowly such result was obtained.
+\begin{figure}
+ \begin{center}
+  \includegraphics[scale=.60]{figs/figure1.png}
+\caption{Male retirement rate by age, 1960, 1970, and 1995-1996. Reproduced from \cite{axtell_coordination_2006}.}
+\label{fig:real-data}
+ \end{center}
+\end{figure}
 
-In our model transition dynamic are markedly non-linear.
-Specifically, either the transition occur almost instantly or it never happens.
+The original paper presented a chart showing real world retirement statistics and how they changed between 1960 and 1995-1996 (see Figure~\ref{fig:real-data}). 
+Although U.S. law was changed in 1961 to allow men to retire at 62 instead of 65, the norm did not change immediately. 
+By 1970, a new norm of 62 had begun growing but there were not a significant increase of people retiring at 64 or 63. 
+That is, the mode did not slide gradually from 65 to 62; it was replaced by a new mode.
+
+The original paper was not able to produce this mode replacement dynamic, though later work using small-world and lattice networks was more successful \cite{axtell2001effects}. We were also not able to reproduce this dynamic using the original model specification and we did not extend it using different network structures.
+
+Our replication, like the original model, results in a gradual slide of the norm from 65 to 62. 
+However, our transition times were generally longer than those in the original. 
+The original showed that the transition time is longer with a higher proportion of imitators and our replication showed the same effect.
+
+There were some important differences though.
+In our model, transition dynamics are markedly non-linear.
+Specifically, either the transition occurs almost instantly or it never happens.
 In fact, when the transition fails a new equilibrium with almost everyone working emerges.
 
 Very interestingly is that we can get somewhat more similar results to the paper if we focus on transition from 65 to 60 instead.
-In this case the transition is quick but not instantaneous and Dependant on the population proportions.
+In this case the transition is quick but not instantaneous and depends on the population proportions.
 
 It is instructive as it stretches the definition of relational equivalence.
-In this case, at first sight, it looks like a utter failure.
+In this case, at first sight, it looks like an utter failure.
 But with a slight modification of the target we can get more reasonable fits.
 
 \subsection{Threshold dynamic}
@@ -340,32 +371,28 @@ Figure~\ref{laxstrict} show the result of the simulation.
 \end{figure}
 
 This highlights one of the oft-neglected advantages of replication.
-Whenever the original source code is missing, only through replication one is able to make additional tests on someone else's model.
+Whenever the original source code is missing, only through replication one is able to make additional tests of someone else's model.
 
 This goes also to show that minor assumptions might have great impact.
 In this case a change in threshold from $.5$ to $.499$ mean the difference between mass retirement and perennial work.
 
 \section{Conclusion}
 
-In this paper we tried to singlemindedly focus on replication.
-We chose the retirement model because its dynamics are simple and its behavior rules easy to program.
+In this paper, we attempted to replicate the look and dynamics of the Axtell's and Epstein's retirement model.
+We were partially successful in reproducing the dynamics although our transition times were much shorter.
+This incongruity deserves more exploration in the future. 
 
-In spite of this we could only partially replicate results.
-This casts serious concerns over replication in general.
-It underlines how access to the original source code is a must.
+This exercise also gave us increased perspective on the advantages and disadvantages of using Java in general and MASON in particular.
+Java's object-oriented structure helped in the creation of different agent types that avoided redundant code.
+MASON allowed us to visualize and test the model as we progressed, which was very helpful.
 
-We also tested some of the advantages and disadvantages of programming with MASON.
-This model was too simple to take advantage of many of the features of Java.
-Nevertheless even for such elementary model object orientation proved helpful.
-Unfortunately we also spent much time fixing garbage collection issues due to MASON and Java misuse.
-Programming got in the way of modeling.
-
-
-
-
+We discovered some of the pitfalls of Java's garbage collection, which while important, took time that could have been better spent exploring model dynamics.
 
 
 \bibliographystyle{splncs03}
+{
+\linespread{1}
 \bibliography{references}
+}
 
 \end{document}
