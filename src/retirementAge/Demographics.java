@@ -116,8 +116,6 @@ public class Demographics implements Steppable{
 		//return the link to that cohort!
 		return agentMatrix[age-model.minAge];
 	}
-
-	//TODO comment about social network extent
 	
 	/**
 	 * Makes all cohort one year older, forgets the last one and creates a new one.
