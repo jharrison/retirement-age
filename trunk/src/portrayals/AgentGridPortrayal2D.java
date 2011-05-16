@@ -12,8 +12,10 @@ import sim.util.Bag;
 
 /**
  * Custom portrayal that allows us to select agents so they can draw their social network.
- * Class also allows us to draw a black rectangle around the outside of the agent grid to
+ * Class also allows us to draw black lines around the outside of the agent grid to
  * more closely match the original implementation.
+ * 
+ * @author jharrison
  */
 @SuppressWarnings("serial")
 public class AgentGridPortrayal2D extends ObjectGridPortrayal2D
@@ -33,7 +35,7 @@ public class AgentGridPortrayal2D extends ObjectGridPortrayal2D
 	protected void hitOrDraw(Graphics2D graphics, DrawInfo2D info, Bag putInHere) {
 		super.hitOrDraw(graphics, info, putInHere);
 		
-		if (graphics == null)
+		if (graphics == null)	// this is the case of the "Hit" in "HitOrDraw"
 			return;
 
         graphics.setColor(Color.black);
