@@ -9,10 +9,19 @@ import sim.portrayal.DrawInfo2D;
 import sim.portrayal.simple.RectanglePortrayal2D;
 import sim.util.gui.SimpleColorMap;
 
+/**
+ * Custom agent portrayal. In addition to drawing colored rectangles via the base class, 
+ * this also draws an 'X' through agents to show they are in the select agent's social 
+ * network and draws a line along the left and top to create a grid.
+ * 
+ * @author jharrison
+ */
 @SuppressWarnings("serial")
 public class AgentPortrayal2D extends RectanglePortrayal2D
 {
-	// Agent colors
+	/**
+	 * Agent colors. These were chosen to match the colors in the original model.
+	 */
 	private final SimpleColorMap agentColors = 
 		new SimpleColorMap(new Color[] { 
 				Color.red, 					// retired
@@ -48,7 +57,4 @@ public class AgentPortrayal2D extends RectanglePortrayal2D
         graphics.drawLine(x, y, x2, y);
         graphics.drawLine(x, y2, x, y);	
 	}
-	
-	
-
 }

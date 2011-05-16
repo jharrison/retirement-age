@@ -189,28 +189,6 @@ public class RetirementAgeModel extends SimState
 					a.setSwitchOff(stopCondition);
 					//done!				
 				}
-				
-				
-				/**********************************
-				 * PRINT OUT STUFF
-				 **********************************/
-				
-				//print out the age matrix!
-//				for(int i=0; i < agents.field.length; i++)
-//				{
-//					for(int j=0; j < agents.field[i].length; j++)
-//					{
-//						System.out.print(((Agent)agents.field[i][j]).getStatus().toString().charAt(0));
-//						System.out.print(",");
-//					}
-//					System.out.println();
-//				}
-//				try {
-//					TimeUnit.SECONDS.sleep(1);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
 			}
 		});		
 	}

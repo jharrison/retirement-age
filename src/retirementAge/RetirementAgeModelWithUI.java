@@ -13,10 +13,9 @@ import sim.display.GUIState;
 import sim.engine.SimState;
 
 /**
- * GUI for Axtell's & Epstein's retirement age model.
+ * GUI for Carrella's and Harrison's replication of Axtell's & Epstein's retirement age model.  
  * 
  * @author jharrison
- *
  */
 public class RetirementAgeModelWithUI extends GUIState
 {
