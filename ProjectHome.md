@@ -1,0 +1,1 @@
+Retirement Age Model by Axtell and Epstein (1999) simulates the decision-making process of people as the near and reach retirement age. Should I keep working or should I retire?
